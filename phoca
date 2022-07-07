@@ -1,8 +1,26 @@
-#!/usr/bin/python3
-import argparse, sys, os, time, concurrent.futures, csv, io
+#     hashbang /usr/bin/python3                           # #! so
+
+# which pip
+# which python       #*
+# python --version   #*
+# 
+# ( .venv/bin/python -m pip install --upgrade pip )
+# pip install -r requirements.txt 
+
+
+# python -m venv .venv
+# source .venv/bin/activate         >>> (.venv) ~HOME/phoca $
+# * confirm
+
+# sudo python   phoca www.google.com   or
+# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing"
+
+import pandas                                           # Future Use
+import sklearn                                          # Future use
+import argparse, sys, os, time, concurrent.futures, csv, io # for CLI
 import pickle
 from sklearn.ensemble import RandomForestClassifier
-from tqdm import tqdm
+from tqdm import tqdm                                   # Smart "gas" gauge
 from pandas import DataFrame, read_csv, concat
 
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), 'probes'))
@@ -42,11 +60,11 @@ class Detector:
         self.outputFormat = outputFormat
         self.rawData = rawData
         self.model = pickle.load(open(self.modelFile, 'rb'))
-
+        #Above, loads pickled data from a file-like object. Ie any object that acts like a file.
     def crawl(self, domains):
         crawlResults = {}
-
-        with concurrent.futures.ThreadPoolExecutor(10) as executor:
+        #Below, executes each submitted task using one of possibly several pooled threads.
+        with concurrent.futures.ThreadPoolExecutor(10) as executor:#Below, outputs a smart progress bar.
             for result in self.tqdm_parallel_map(executor, self.testSite, domains):
                 crawlResults[result['site']] = {'classification' : result['classification'], 
                                                 'data' : result['data']}
@@ -128,7 +146,7 @@ class Detector:
         if(self.outputFormat == 'csv'):
             resultsToFile = []
 
-            for key,value in siteResults.items():
+            for key,value in siteResults.items():   # ((Not a tuple, but a dict))
                 currentResults = {}
                 if(self.rawData):
                     currentResults.update(value['data'])
@@ -155,7 +173,7 @@ class Detector:
         f.close()
         return output
 
-    def tqdm_parallel_map(self, executor, fn, *iterables, **kwargs):
+    def tqdm_parallel_map(self, executor, fn, *iterables, **kwargs):    # ((Progress bar lib))
         futures_list = []
         results = []
         for iterable in iterables:
@@ -167,15 +185,15 @@ class Detector:
             for f in concurrent.futures.as_completed(futures_list):
                 yield f.result()
 
-def process_args():
+def process_args():                                 # Basically a parser "engine".
     programDescription = """
-    ######################################
-     _____  _    _  ____   _____
-    |  __ \| |  | |/ __ \ / ____|   /\\
-    | |__) | |__| | |  | | |       /  \\
-    |  ___/|  __  | |  | | |      / /\ \\
-    | |    | |  | | |__| | |____ / ____ \\
-    |_|    |_|  |_|\____/ \_____/_/    \_\\
+    ######################################  TO EXE ON OSX (Catalina 10.15.7):
+     _____  _    _  ____   _____           
+    |  __ \| |  | |/ __ \ / ____|   /\\     MAKE CERTAIN: $ PYTHON -m VENV .VENV
+    | |__) | |__| | |  | | |       /  \\    $ SOURCE .VENV/BIN/ACTIVATE
+    |  ___/|  __  | |  | | |      / /\ \\   $ SUDO PYTHON (opt './') PHOCA WWW.SOMEWEBSITE.TLD 
+    | |    | |  | | |__| | |____ / ____ \\  
+    |_|    |_|  |_|\____/ \_____/_/    \_\\     
     
     ######################################
     """
@@ -215,7 +233,7 @@ def process_args():
     return args
 
 if(__name__ == '__main__'):
-    args = process_args()
+    args = process_args()                           # phoca
 
     if(args['input_file'] != None):
         with open(args['input_file'], "r") as f:
