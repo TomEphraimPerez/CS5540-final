@@ -13,7 +13,7 @@
 # * confirm
 
 # sudo python   phoca www.google.com   or
-# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing"
+# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing"         after < 15 sec.
 
 import pandas                                           # Future Use
 import sklearn                                          # Future use
