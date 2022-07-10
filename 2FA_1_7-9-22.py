@@ -1,107 +1,251 @@
-# 7-8-22 2FA, based on; credit:
-#       https://blog.jothin.tech/2fa-with-python
-# and hopefully easily reversable.
-
-# pip install onetimepass
-# authenticator app = Google authenticatoror Microsoft authenticator or etc.
-
-# lcl Dir >>>
-# /Users/thomasperez/5540smr22Team/GroupProject1/phoca 
-
+#     hashbang /usr/bin/python3                           # #! so
+# test3
+# which pip
+# which python       #*
+# python --version   #*
+# 
+# ( .venv/bin/python -m pip install --upgrade pip )
+# pip install -r requirements.txt 
 
 
+# python -m venv .venv
+# source .venv/bin/activate         >>> (.venv) ~HOME/phoca $
+# * confirm
 
-# |********* HOW TO GET YOUR One-Time secret Passcode given by Microsoft; eg 373030 ******|
-# USE the GITHUB URL to enter into the Microsoft Authenticator app, eg:
-# 		https://github.com/TomEphraimPerez/CS5540-final/tree/master
-#  Include the generated 16 alphanumeric secret given when running this script; eg: 
-#		4RPQ75PDZCZJJ2E5
+# sudo python   phoca www.google.com   or
+# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing"         after < 15 sec.
 
-# Now - the MS authenticator, for a few seconds, issues you a  		
-#       One-Time secret Passcode given by Microsoft;  eg: 373030
-# Enter this 6-digit code into the CLI since it's expecting it.
-# |******************           Vio'la          ******************************************|
+import pandas                                           # Future Use
+import sklearn                                          # Future use
+import argparse, sys, os, time, concurrent.futures, csv, io # for CLI
+import pickle
+from sklearn.ensemble import RandomForestClassifier
+from tqdm import tqdm                                   # Smart "gas" gauge
+from pandas import DataFrame, read_csv, concat
 
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), 'probes'))
 
+from timingProbes import *
+from featureProbes import *
 
+class Detector:
 
-# Execute:	python 2FA_1_7-9-22.py 	( not $ ./2FA_1_7-9-22.py , O/W get script errors)
-#												A <TOTP>
-from onetimepass import  valid_totp
-from secrets import choice
-# for HTOP
-from onetimepass import  valid_hotp
+    timingProbes = [
+        tcpSYNTiming,
+        tlsClientHelloTiming,
+        tlsClientHelloErrorTiming,
+        tlsHandshakeTiming,
+        httpsGetRequestTiming,
+        httpGetRequestTiming,
+        httpGetRequestErrorTiming,
+        httpsGetRequestErrorTiming,
+        httpGetRequestNoHostHeaderTiming,
+        httpsGetRequestNoHostHeaderTiming
+    ]
 
-#Function to rtn a rand str w/ len=16
-def generate_secret():
-	secret = ''
-	while len(secret) < 16:
-		secret += choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567')
-		
-	return secret
-		
-secret = generate_secret()
-print('\n\n\t\tEnter the secret passcode you see here, into your Microsoft authenticator app :  ', secret)
-print("""
-	>>> OPTIONAL for GOOGLE Authenticator | Saving the Google secret:
-	> Open the app
-	> Click on the "+" icon
-	> Click "Enter"
-	> Enter an email account, then the  secret code
-	> Click "Add"
-""")
+    featureProbes = [
+        TLSLibrary,
+        TLSVersions,
+    ]
 
-print('\n\n')
-while True:
-	otp = int (input ('Enter the One-Time secret Passcode given by Microsoft :  '))
-	authenticated = valid_totp(otp, secret)
-   
-	if authenticated:
-		print('Valid OTP,  Authenticated  :)  ')
-	elif not authenticated:
-		print('Invalid OTP,   : /   Try again.')
+    def __init__(self, http_port=80, https_port=443, numIterations=10, 
+                modelFile="./classifier.cls", rawData=False,
+                outputFile=None, outputFormat="csv"):
 
-		
-#												A n<HOTP>
-'''
-def generate_secret():
-	secret = ''
-	while len(secret) < 16:
-		secret += choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567')
-		
-	return secret
-	
-secret = generate_secret()
-print('\n\n\t\tEnter the secret passcode you see here, into your Microsoft authenticator app :  ', secret)
-print("""
-    >>> OPTIONAL for GOOGLE Authenticator | Saving the Google secret:
-	> Open the app
-	> Click on the "+" icon
-	> Click "Enter"
-	> Enter an email account, then the  secret code
-	> Click "Add"
-""")
-'''
+        self.http_port = http_port
+        self.https_port = https_port
+        self.numIterations = numIterations
+        self.modelFile = modelFile
+        self.outputFile = outputFile
+        self.outputFormat = outputFormat
+        self.rawData = rawData
+        self.model = pickle.load(open(self.modelFile, 'rb'))
+        #Above, loads pickled data from a file-like object. Ie any object that acts like a file.
+    def crawl(self, domains):
+        crawlResults = {}
+        #Below, executes each submitted task using one of possibly several pooled threads.
+        with concurrent.futures.ThreadPoolExecutor(10) as executor:#Below, outputs a smart progress bar.
+            for result in self.tqdm_parallel_map(executor, self.testSite, domains):
+                crawlResults[result['site']] = {'classification' : result['classification'], 
+                                                'data' : result['data']}
+                if(self.outputFile == None and not self.rawData):
+                    if(len(domains) == 1):
+                        print(result['classification'])
+                    else:
+                        print(f"{result['site']}: {result['classification']}")
 
-"""
-print('\n\n')
-while True:
-	counter = 0
-	opt = int (input ('Enter the One-Time secret Passcode given by Microsoft :  '))
-	authenticated = valid_hotp(otp, secret)
-   
-	if authenticated:
-		print('Valid OTP,  Authenticated  : ) ') 
-		count += 1
-	elif not authenticated:
-		print('Invalid OTP,  : / Try again.')	
-"""
+        output = self.writeResultsToFile(crawlResults)
+        if(output and self.rawData):
+            print(output)
 
+    def testSite(self, site):
+        result = {'site' : site}
+        result['data'] = self.probeSite(site)
+        result['classification'] = self.classifySite(result['data'])
 
+        return result
 
+    def classifySite(self, recordings):
+        classification = None
 
+        recordingsDataFrame = DataFrame([recordings])
+        columnsToDrop = [column for column in recordingsDataFrame if column not in self.model.feature_names]
+        recordingsDataFrame = recordingsDataFrame.drop(columnsToDrop, axis=1)
+        if(recordingsDataFrame.isna().sum().sum() > 0):
+            return classification
 
+        recordingsDataFrame = recordingsDataFrame.reindex(sorted(recordingsDataFrame.columns), axis=1)
 
+        try:
+            classification = self.model.predict(recordingsDataFrame)[0]
+        except Exception as e:
+            print(e)
 
+        return classification
 
+    def probeSite(self, site):
+        probeResults = {'site' : site}
 
+        # Place all feature probes into threadpool queue
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+        featureProbeThreads = []
+        for probe in Detector.featureProbes:
+            featureProbeThreads.append(executor.submit(probe(site, self.http_port, self.https_port).test))
+
+        # On the main thread, loop through the timing threads so the main thread does something
+        # while the feature threads are running
+        for probe in Detector.timingProbes:
+            currentProbeResults = probe(site, self.http_port, self.https_port).test(n=self.numIterations)
+            probeResults[probe.__name__] = currentProbeResults
+
+        # Compute the additional timing features
+        probeResults['httpsGetSynRatio'] = probeResults['httpsGetRequestTiming'] / probeResults['tcpSYNTiming']
+        probeResults['httpGetSynRatio'] = probeResults['httpGetRequestTiming'] / probeResults['tcpSYNTiming']
+        probeResults['httpsGetErrorSynRatio'] = probeResults['httpsGetRequestErrorTiming'] / probeResults['tcpSYNTiming']
+        probeResults['httpGetErrorSynRatio'] = probeResults['httpGetRequestErrorTiming'] / probeResults['tcpSYNTiming']
+        probeResults['httpGetHttpGetErrorRatio'] = probeResults['httpGetRequestTiming'] / probeResults['httpGetRequestErrorTiming']
+        probeResults['httpsGetHttpsGetErrorRatio'] = probeResults['httpsGetRequestTiming'] / probeResults['httpsGetRequestErrorTiming']
+
+        # Collect the results of the feature threads
+        for thread in featureProbeThreads:
+            try:
+                probeResults.update(thread.result(timeout=60))
+            except Exception as e:
+                raise e
+                probeResults.update({})
+
+        executor.shutdown(wait=False)
+        return probeResults
+
+    def writeResultsToFile(self, siteResults):
+        if(self.outputFile != None):
+            f = open(self.outputFile, 'w')
+        else:
+            f = io.StringIO()
+
+        if(self.outputFormat == 'csv'):
+            resultsToFile = []
+
+            for key,value in siteResults.items():   # ((Not a tuple, but a dict))
+                currentResults = {}
+                if(self.rawData):
+                    currentResults.update(value['data'])
+                currentResults['classification'] = value['classification']
+                currentResults['site'] = key
+
+                resultsToFile.append(currentResults)
+
+            writer = csv.DictWriter(f, fieldnames=resultsToFile[0].keys())
+            writer.writeheader()
+            for row in resultsToFile:
+                writer.writerow(row)
+        elif(self.outputFormat == 'json'):
+            for key in siteResults.keys():
+                if(not self.rawData):
+                    del siteResults[key]['data']
+
+            json.dump(siteResults, f)
+
+        if(self.outputFile == None):
+            output = f.getvalue()
+        else:
+            output = None
+        f.close()
+        return output
+
+    def tqdm_parallel_map(self, executor, fn, *iterables, **kwargs):    # ((Progress bar lib))
+        futures_list = []
+        results = []
+        for iterable in iterables:
+            futures_list += [executor.submit(fn, i) for i in iterable]
+        if(len(futures_list) > 1 and self.outputFile):
+            for f in tqdm(concurrent.futures.as_completed(futures_list), total=len(futures_list), **kwargs):
+                yield f.result()
+        else:
+            for f in concurrent.futures.as_completed(futures_list):
+                yield f.result()
+
+def process_args():                                 # Basically a parser "engine".
+    programDescription = """
+    ######################################  TO EXE ON OSX (Catalina 10.15.7):
+     _____  _    _  ____   _____           
+    |  __ \| |  | |/ __ \ / ____|   /\\     MAKE CERTAIN: $ PYTHON -m VENV .VENV
+    | |__) | |__| | |  | | |       /  \\    $ SOURCE .VENV/BIN/ACTIVATE
+    |  ___/|  __  | |  | | |      / /\ \\   $ SUDO PYTHON (opt './') PHOCA WWW.SOMEWEBSITE.TLD 
+    | |    | |  | | |__| | |____ / ____ \\  
+    |_|    |_|  |_|\____/ \_____/_/    \_\\     
+    
+    ######################################
+    """
+
+    parser = argparse.ArgumentParser(description=programDescription, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("domain",
+                        nargs="?",
+                        help="Domain to classify as a MITM phishing website. Not required if input file specified with -r argument.")
+    parser.add_argument("-R", "--raw-data",
+                        action="store_true",
+                        default=False,
+                        help="Record and output raw classification data about site(s).")
+    parser.add_argument("-w", "--output-file",
+                        type=str,
+                        help="File to write probe outputs to. This argument is required if in record mode.",
+                        default=None)
+    parser.add_argument("-r", "--input-file",
+                        type=str,
+                        help="File containing URLs or IP addresses to crawl. Each line should contain only the URL.")
+    parser.add_argument("-n", "--num-iterations", type=int, default=10,
+                        help="Number of times each timing probe should be executed for each site. A larger number of " + \
+                                "iterations per site will result in more accurate results, but a longer runtime. " +\
+                                "This value defaults to 10.")
+    parser.add_argument("--http-port", type=int, default=80,
+                        help="Set the port to scan HTTP web servers. Defaults to 80.")
+    parser.add_argument("--https-port", type=int, default=443,
+                        help="Set the port to scan HTTPS web servers. Defaults to 443.")
+    parser.add_argument("--output-format", help="Format to produce output if in \"Record\" mode. Options include: csv, json. Default format is csv.", default="csv")
+    args = vars(parser.parse_args())
+
+    if(args["domain"] == None and args["input_file"] == None):
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+    elif(os.geteuid() != 0):
+        print("Root permissions not granted. Removing TCP SYN/ACK timing from probe list. Rerun program as root to enable this probe.")
+        self.timingProbes.remove(tcpSYNTiming)
+    return args
+
+if(__name__ == '__main__'):
+    args = process_args()                           # phoca
+
+    if(args['input_file'] != None):
+        with open(args['input_file'], "r") as f:
+            domains = [domain.strip() for domain in f.readlines()]
+    else:
+        domains = [args["domain"]]
+
+    detector = Detector(http_port=args['http_port'], 
+                        https_port=args['https_port'], 
+                        numIterations=args['num_iterations'],
+                        rawData=args['raw_data'],
+                        outputFile=args['output_file'],
+                        outputFormat=args['output_format'])
+
+    detector.crawl(domains)
