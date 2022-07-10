@@ -1,13 +1,21 @@
 # 7-8-22 2FA, based on; credit:
 #       https://blog.jothin.tech/2fa-with-python
 # and hopefully easily reversable.
-
+# test10
 # pip install onetimepass
 # authenticator app = Google authenticatoror Microsoft authenticator or etc.
 
 # lcl Dir >>>
 # /Users/thomasperez/5540smr22Team/GroupProject1/phoca 
 
+
+
+# |******************           EXECUTE        ******************************************|
+'''
+Execute:	python 2FA_1_7-9-22BAK.py 	( not $ ./2FA_1_7-9-22BAK.py , O/W get script errors)
+									A <TOTP>
+'''
+# |**************************************************************************************|
 
 
 
@@ -24,9 +32,25 @@
 
 
 
+# |*****      JSON and CSV formats supported for output of raw feature data:     *********|
+'''
+sudo python phoca --raw-data --output-format json www.google.com | jq
+{
+  "www.google.com": {
+    "classification": "Non-Phishing",
+    "data": {
+      "site": "www.google.com",
+      "tcpSYNTiming": 5.626678466796875e-05,
+      "tlsClientHelloTiming": 0.0029659271240234375,
+      "tlsClientHelloErrorTiming": 0.003025054931640625,
+      "tlsHandshakeTiming": 0.012071371078491211,
+      ...
 
-# Execute:	python 2FA_1_7-9-22.py 	( not $ ./2FA_1_7-9-22.py , O/W get script errors)
-#												A <TOTP>
+'''
+# |***************************************************************************************|
+
+
+
 from onetimepass import  valid_totp
 from secrets import choice
 # for HTOP
