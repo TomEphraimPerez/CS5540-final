@@ -1,5 +1,5 @@
 #     hashbang /usr/bin/python3                           # #! so
-# test3
+# test10
 # which pip
 # which python       #*
 # python --version   #*
@@ -12,8 +12,20 @@
 # source .venv/bin/activate         >>> (.venv) ~HOME/phoca $
 # * confirm
 
+
+# |************************    EXECUTE   ************************************************|
 # sudo python   phoca www.google.com   or
-# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing"         after < 15 sec.
+# sudo python ./phoca www.google.com   Either one is OK. Results in 10sec >>> "Non-phishing". 15 sec.
+
+'''
+Bulk scan multiple websites by supplying a csv containing one URL or domain per line:
+sudo python phoca -r domains.csv
+Output results to a CSV file rather than terminal output:
+sudo python phoca -r domains.csv -w results.c
+
+'''
+# |******************           Vio'la          ******************************************|
+
 
 import pandas                                           # Future Use
 import sklearn                                          # Future use
