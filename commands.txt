@@ -1,0 +1,196 @@
+						COMMANDS:
+
+
+				PHOCA toolkit.
+|----------------------------------------------------------------------
+To get PHOCA to output: 
+	$ sudo python 2FA_1_7-9-22.py target.com  or
+	$ sudo python phoca target.com
+	Results can be "Non-Phishing"	
+
+To get raw data via PHOCA:
+  sudo python phoca --raw-data --output-format json www.google.com | jq	
+	$ Some results are (on my terminal, BLUE lines to JSON):			
+	"www.google.com": {
+    	"classification": "Non-Phishing",
+    		"data": {
+      		"site": "www.google.com",
+      		"tcpSYNTiming": -1,
+      		"tlsClientHelloTiming": 0.01562809944152832,
+      		"tlsClientHelloErrorTiming": 0.01117396354675293,
+      		"tlsHandshakeTiming": 0.023517847061157227,
+      		"httpsGetR . . . 
+                . . .      . . .
+|----------------------------------------------------------------------
+
+
+
+				2FA
+|----------------------------------------------------------------------
+
+For 2FA, instructions are shown in 2FA_1_7-9-22BAK.py 
+	$ python 2FA_1_7-9-22BAK.py 
+	Results can be 	"Valid OTP,  Authenticated  :)"
+
+Eg.,
+Thomass-MacBook-Pro:phoca thomasperez$ python 2FA_1_7-9-22BAK.py 
+
+
+		Enter the secret passcode you see here, into your Microsoft authenticator app :   4JGC454AJNPQLK6D
+
+	>>> OPTIONAL for GOOGLE Authenticator | Saving the Google secret:
+	> Open the app
+	> Click on the "+" icon
+	> Click "Enter"
+	> Enter an email account, then the  secret code
+	> Click "Add"
+
+Enter the One-Time secret Passcode given by Microsoft :  169286
+			Valid OTP,  Authenticated  :) 
+|----------------------------------------------------------------------
+
+
+
+			OpenSSL operations | poftut.com/use-openssl-s_client-check-verify-ssltls-https-webserver/
+|------------------------------------------------------------------------------------------------------------------
+For OpenSSL operations:
+$  openssl s_client -connect target.com:443  		   ONLY to chk remote site's TSL/SSL. Pt num gvn to website
+$  openssl s_client -connect poftut.com:443 -tlsextdebug   To debug SSL/TLS of the HTTP
+        and yields, (eg., for target.com) 		    >>>	>>>
+
+>>> >>>
+ 	openssl s_client -connect target.com:443
+CONNECTED(00000006)
+depth=2 OU = GlobalSign Root CA - R3, O = GlobalSign, CN = GlobalSign
+verify return:1
+depth=1 C = BE, O = GlobalSign nv-sa, CN = GlobalSign Atlas R3 OV TLS CA H2 2021
+verify return:1
+depth=0 C = US, ST = Minnesota, L = Minneapolis, O = Target Corporation, CN = sites.target.com
+verify return:1
+---
+Certificate chain
+ 0 s:/C=US/ST=Minnesota/L=Minneapolis/O=Target Corporation/CN=sites.target.com
+   i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign Atlas R3 OV TLS CA H2 2021
+ 1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign Atlas R3 OV TLS CA H2 2021
+   i:/OU=GlobalSign Root CA - R3/O=GlobalSign/CN=GlobalSign
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIOvTCCDaWgAwIBAgIQAS7eM/ySg3czlumx/5lSYjANBgkqhkiG9w0BAQsFADBY
+MQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTEuMCwGA1UE
+AxMlR2xvYmFsU2lnbiBBdGxhcyBSMyBPViBUTFMgQ0EgSDIgMjAyMTAeFw0yMTA5
+MjgxNjQ2MDlaFw0yMjEwMzAxNjQ2MDhaMG8xCzAJBgNVBAYTAlVTMRIwEAYDVQQI
+DAlNaW5uZXNvdGExFDASBgNVBAcMC01pbm5lYXBvbGlzMRswGQYDVQQKDBJUYXJn
+ZXQgQ29ycG9yYXRpb24xGTAXBgNVBAMMEHNpdGVzLnRhcmdldC5jb20wggEiMA0G
+CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDCz3kq8+o1TarOA7Zoxe+IhE8DnX/c
+RXSyc2U76zZO/QhNket0k5E0Cel5ulUtZvISi+uNJp1iBWjVp7Hw3rVLFUnHSy9/
+AKkwiFHEY87rr6igGa5HlJostMBQYTlw7ZsODwf0SADhj5WaF81VPWZc1AbYH616
+ldDqbnW3y79FjAaPSezin+F4tkll/nsX5TidtOLZl494vJZSTKuEj9abJGI0Bili
+4DsponhFs/zHzjNEKCci/sbbCglpMXNZWY/+O1joFLZht781Tew0SIBXU3xPXNWc
+Xsses2lNp7v6iOyHTWNfVu8h+ca0qjLDJqqMU7jvjVAwUrtMryVEOLGBAgMBAAGj
+ggtqMIILZjCCCCAGA1UdEQSCCBcwgggTg      ...	...	...
+...	...	...
+VG17JJLPcf297zynb72vwjzWAHl6AoWPc05sz89par7mSmNsYtH5fOCDNRWhqnp2
+raO6yYhuJUBKnsndpz7CQRT9mmlF2oduqncGkl+Tf+qn
+-----END CERTIFICATE-----
+
+subject=/C=US/ST=Minnesota/L=Minneapolis/O=Target Corporation/CN=sites.target.com
+issuer=/C=BE/O=GlobalSign nv-sa/CN=GlobalSign Atlas R3 OV TLS CA H2 2021
+---
+No client certificate CA names sent
+Server Temp Key: ECDH, X25519, 253 bits
+---
+SSL handshake has read 5626 bytes and written 289 bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES128-GCM-SHA256
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+    Session-ID: 69B4F79203AAEDC154B55452C3631FC83D20B132657613526AEB69A4ED51A557
+    Session-ID-ctx: 
+    Master-Key: 0A02246B43D7A888508C9187EB7EF57B3FF008AB63D2434DFB9893FA1E498F1A1559E113BA8B86A6495F15A282AF4ADA
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - f9 7d 65 26 3a 49 cf 9a-29 66 c7 06 73 dc 77 c9   .}e&:I..)f..s.w.
+    0010 - e4 c7 a1 cc 4f 69 6d 3b-36 62 b8 ef 1f b8 0f 78   ....Oim;6b.....x
+    0020 - af 73 09 bc 3c ae 8b d8-8e 64 4b ca 28 bb 58 8e   .s..<....dK.(.X.
+    0030 - 61 e9 51 88 09 e6 6b 9b-2e 9c 35 55 71 3f ea 73   a.Q...k...5Uq?.s
+    0040 - 66 5e 65 15 03 77 2c 3e-0c cb cd 5b c6 25 0d fc   f^e..w,>...[.%..
+    0050 - 93 4a eb 22 32 40 cb d6-fc 11 3a 39 50 5c 3a d4   .J."2@....:9P\:.
+    0060 - 18 87 b6 74 39 a0 30 f4-db 55 fd 49 59 b3 97 c8   ...t9.0..U.IY...
+    0070 - d6 3b ec 97 52 8d b9 2b-67 03 f7 41 99 42 82 ca   .;..R..+g..A.B..
+    0080 - 78 bf c1 f6 9f 2f 9f 12-23 0d e4 80 c9 ec d1 5b   x..../..#......[
+    0090 - 78 90 1c 70 fb a8 2a 6b-4b ae 04 fa 96 5e 98      x..p..*kK....^.
+    00a0 - <SPACES/NULS>
+
+    Start Time: 1657507320
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+---
+closed
+
+|-------------------------------------------End openssl ---------------------------------------------------------
+
+
+
+
+|------------------------------------------  : )     ja3er.com  : )   -------------------------------------------
+                                       https://ja3er.com/about.html including README's
+SYNOPSIS: 
+The JA3 algorithm takes a collection of settings from the SSL "Client Hello" such as SSL/TLS version, accepted cipher suites, list of extensions, accepted elliptic curves, and elliptic curve formats.
+For compactness the JA3 string is hashed with MD5.
+
+-----------------
+For just raw data, use REST API tp get a JSON str. To get your fp:
+  curl -X GET 'https://ja3er.com/json'
+
+To search for "User-Agents" matching a given hash type:
+  curl -X GET 'https://ja3er.com/search/[md5_hash]'
+
+To easily integrate JA# SSL into youe website, eg., with jquerys: [the "$." is intentional]
+$.getJSON( "https://ja3er.com/json", function( json ) {
+  console.log( "JSON Data: " + json.ja3 );
+ });
+----------------
+
+.
+.
+.
+.
+.
+.
+					Conclusion ja3er.com
+JA3 and JA3S are TLS fingerprinting methods. JA3 fingerprints the way that a client application communicates over TLS, and JA3S fingerprints the server response. 
+
+Combined, they essentially create a fingerprint of the cryptographic negotiation between client and server. While not always a silver bullet to TLS-based detection or a guaranteed mapping to client applications, they are always valuable as a pivot point for analysis.
+
+We designed these methods so that they can be easily applied to existing technologies. The resulting fingerprints are easy to consume and easy to share. The BSD 3-Clause license makes it easy to implement. We just wanted it to be easy. In doing so, our hope is that it becomes a valuable addition to your defensive arsenal and that it inspires others to build off of our research and push the industry forward.
+
+Zeek/Bro and Python versions of JA3 and JA3S are available at https://github.com/salesforce/ja3 as well as links to other tools which have implemented the methods.
+
+JA3 was created by:
+John Althouse
+Jeff Atkinson
+Josh Atkins
+
+For SSH client and server fingerprinting, please see HASSH at https://github.com/salesforce/hassh
+
+For automatic client to JA3 or HASHH mapping, please see Bro-Sysmon at https://github.com/salesforce/bro-sysmon/
+
+For any questions or comments, please feel free to contact me on LinkedIn or @4A4133.
+
+|----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
