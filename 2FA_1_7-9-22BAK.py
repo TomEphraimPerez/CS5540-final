@@ -34,6 +34,7 @@ Execute:	python 2FA_1_7-9-22BAK.py 	( not $ ./2FA_1_7-9-22BAK.py , O/W get scrip
 
 # |*****      JSON and CSV formats supported for output of raw feature data:     *********|
 '''
+R-> client looking out
 sudo python phoca --raw-data --output-format json www.google.com | jq
 {
   "www.google.com": {
