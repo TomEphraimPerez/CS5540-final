@@ -1,3 +1,9 @@
+2FA_1_7-9-22.py    IS THE  PHOCA DETECTOR  only.
+2FA_1_7-9-22BAK.py IS THE 2FA GENERATOR    only. 
+Instructions on execution etc, are comments in <CODE>
+Also, there exists an ostensible folder for the actual sequence-of-events jpgs.
+
+[sic from Stonybrook paper]
 # PHOCA
 Tool to analyze and classify websites as originating from a MITM phishing toolkit or not. 
 Supplementary material for CCS '21 paper ["Catching Transparent Phish: Analyzing and Detecting MITM Phishing Toolkits"](https://catching-transparent-phish.github.io/catching_transparent_phish.pdf).
