@@ -140,10 +140,10 @@ closed
 
 
 
-|------------------------------------------  : )     ja3er.com  : )   -------------------------------------------|
+|------------------------------------------  : )     ja3er.com  : )   -------------------------------------------||
 					    https://github.com/salesforce/ja3
                                        https://ja3er.com/about.html including README's
-SYNOPSIS: 
+SYNOPSIS: [sic]
 The JA3 algorithm takes a collection of settings from the SSL "Client Hello" such as: SSL/TLS version, accepted cipher suites, list of extensions, accepted elliptic curves, and elliptic curve formats. 	TvCSEee
 For compactness the JA3 string is hashed with MD5.
 
@@ -160,11 +160,11 @@ $.getJSON( "https://ja3er.com/json", function( json ) {
   console.log( "JSON Data: " + json.ja3 );
  });
 ----------------
+End sic
 
 
 
-
-================	EG// M A L W A R E vs INNOCUOUS tfc  | note the "C2 Server Response" snippet ===================|
+==========	EG// M A L W A R E vs INNOCUOUS tfc  | note the "C2 Server Response" snippet ===========|
 	INNOCUOUS >>> >>>
 Std TOR Client:
 JA3 = e7d705a3286e19ea42f587b344ee6865 				( Tor Client )
@@ -193,7 +193,7 @@ $ curl -X GET 'https://ja3er.com/json'| jq
 
 
 
-	MALWARE >>> >>>
+	MALWARE >>> >>> [sic]
 In these malware examples, the command and control server always responds to the malware client in exactly the same way; it does not deviate. So even though the traffic is encrypted and one may not know the command and control server’s IPs or domains as they are constantly changing, we can still identify, with reasonable confidence, the malicious communication by fingerprinting the TLS negotiation between client and server.
 Trickbot malware:
 JA3 = 6734f37431670b3ab4292b8f60f29984 ( Trickbot )
@@ -201,15 +201,12 @@ JA3S = 623de93db17d313345d7ea481e7443cf				( C2 Server Response )
 
 Emotet malware:
 JA3 = 4d7a28d6f2263ed61de88ca66eb011e3 ( Emotet )
-JA3S = 80b3a14bccc8598a1f3bbe83e71f735f 			( C2 Server Response )
-=============================      END EG// M A L W A R E vs INNOCUOUS   ===============================================|
+JA3S = 80b3a14bccc8598a1f3bbe83e71f735f 			( C2 Server Response )      //end sic
+====================      END EG// M A L W A R E vs INNOCUOUS   ===================================|
 
-
 .
 .
-.
-.
-.					Conclusion ja3er.com
+.					Conclusion ja3er.com [sic]
 .
 JA3 and JA3S are TLS fingerprinting methods. JA3 fingerprints the way that a client application communicates over TLS, and JA3S fingerprints the server response. 
 
@@ -228,9 +225,17 @@ For SSH client and server fingerprinting, please see HASSH at https://github.com
 
 For automatic client to JA3 or HASHH mapping, please see Bro-Sysmon at https://github.com/salesforce/bro-sysmon/
 
-For any questions or comments, please feel free to contact me on LinkedIn or @4A4133.
+For any questions or comments, please feel free to contact me on LinkedIn or @4A4133.  	End sic.
 
-|----------------------------------------------------------------------------------------------------------------|
+|-------   -------     ------   ----- END : )     ja3er.com  : ) -------   ------            --------   ----------||
+	TO DETERMINE an IP ADDR --->>>   		             TO DETERMINE an IP ADDR --->>>
+https://www.defensive-security.com/blog/hiding-behind-ja3-hash
+   https://www.defensive-security.com/blog/hiding-behind-ja3-hash    SHOWS >>>
+	# ping google.com (216.58.215.78) 56(84) bytes of data. 
+	# tcpdump host 216.58.215.78 -w /tmp/curl.pcap -c 7 
+	# curl -k https://216.58.215.78
+	# wireshark-gtk /tmp/curl.pcap   
+
 
 
 
