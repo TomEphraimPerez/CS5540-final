@@ -2,7 +2,7 @@
 
 
 				PHOCA toolkit.
-|----------------------------------------------------------------------
+|----------------------------------------------------------------------|
 To get PHOCA to output: 
 	$ sudo python 2FA_1_7-9-22.py target.com  or
 	$ sudo python phoca target.com
@@ -21,12 +21,12 @@ To get raw data via PHOCA:
       		"tlsHandshakeTiming": 0.023517847061157227,
       		"httpsGetR . . . 
                 . . .      . . .
-|----------------------------------------------------------------------
+|--------------------------------End Phoca tk-------------------------|
 
 
 
 				2FA
-|----------------------------------------------------------------------
+|----------------------------------------------------------------------|
 
 For 2FA, instructions are shown in 2FA_1_7-9-22BAK.py 
 	$ python 2FA_1_7-9-22BAK.py 
@@ -47,12 +47,12 @@ Thomass-MacBook-Pro:phoca thomasperez$ python 2FA_1_7-9-22BAK.py
 
 Enter the One-Time secret Passcode given by Microsoft :  169286
 			Valid OTP,  Authenticated  :) 
-|----------------------------------------------------------------------
+|---------------------------- END 2FA---------------------------------|
 
 
 
-			OpenSSL operations | poftut.com/use-openssl-s_client-check-verify-ssltls-https-webserver/
-|------------------------------------------------------------------------------------------------------------------
+		OpenSSL operations | poftut.com/use-openssl-s_client-check-verify-ssltls-https-webserver/
+|------------------------------------------------------------------------------------------------------------------|
 For OpenSSL operations:
 $  openssl s_client -connect target.com:443  		   ONLY to chk remote site's TSL/SSL. Pt num gvn to website
 $  openssl s_client -connect poftut.com:443 -tlsextdebug   To debug SSL/TLS of the HTTP
@@ -134,37 +134,83 @@ SSL-Session:
 ---
 closed
 
-|-------------------------------------------End openssl ---------------------------------------------------------
+|-------------------------------------------End openssl ---------------------------------------------------------|
 
 
 
 
-|------------------------------------------  : )     ja3er.com  : )   -------------------------------------------
+
+|------------------------------------------  : )     ja3er.com  : )   -------------------------------------------|
+					    https://github.com/salesforce/ja3
                                        https://ja3er.com/about.html including README's
 SYNOPSIS: 
-The JA3 algorithm takes a collection of settings from the SSL "Client Hello" such as SSL/TLS version, accepted cipher suites, list of extensions, accepted elliptic curves, and elliptic curve formats.
+The JA3 algorithm takes a collection of settings from the SSL "Client Hello" such as: SSL/TLS version, accepted cipher suites, list of extensions, accepted elliptic curves, and elliptic curve formats. 	TvCSEee
 For compactness the JA3 string is hashed with MD5.
 
 -----------------
-For just raw data, use REST API tp get a JSON str. To get your fp:
+For just raw data, use REST API to get a JSON str. To get your fp:
   curl -X GET 'https://ja3er.com/json'
+
 
 To search for "User-Agents" matching a given hash type:
   curl -X GET 'https://ja3er.com/search/[md5_hash]'
 
-To easily integrate JA# SSL into youe website, eg., with jquerys: [the "$." is intentional]
+To easily integrate JA# SSL into your website, eg., with jquerys: [the "$." is intentional]
 $.getJSON( "https://ja3er.com/json", function( json ) {
   console.log( "JSON Data: " + json.ja3 );
  });
 ----------------
 
+
+
+
+================	EG// M A L W A R E vs INNOCUOUS tfc  | note the "C2 Server Response" snippet ===================|
+	INNOCUOUS >>> >>>
+Std TOR Client:
+JA3 = e7d705a3286e19ea42f587b344ee6865 				( Tor Client )
+JA3S = a95ca7eab4d47d051a5cd4fb7b6005dc				( Tor Server Response )
+The TOR servers always respond to the Tor client in exactly the same way, providing higher confidence that the traffic is indeed Tor. 
+
+		TOR >>
+Standard Tor Client:
+JA3 = e7d705a3286e19ea42f587b344ee6865 				( Tor Client ) again
+JA3S = a95ca7eab4d47d051a5cd4fb7b6005dc				( Tor Server Response ) again
+
+
+		ja3er >>
+curl -X GET 'https://ja3er.com/json'	|	 jq
+curl -X GET 'https://ja3er.com/json' | jq 
+returns >>>
+$ curl -X GET 'https://ja3er.com/json'| jq 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   325  100   325    0     0    419      0 --:--:-- --:--:-- --:--:--   419
+{
+  "ja3_hash": 	"3faa4ad39f690c4ef1c3160caa375465",
+  "ja3": 		"771,49200-49196-49192-49188-49172-49162-159-107-57-52393-52392-52394-65413-196-136-129-157-61-53-192-132-49199-49195-49191-49187-49171-49161-158-103-51-190-69-156-60-47-186-65-49169-49159-5-4-49170-49160-22-10-255,0-11-10-13-16,29-23-24,0",
+  "User-Agent": "curl/7.64.1"
+}
+
+
+
+	MALWARE >>> >>>
+In these malware examples, the command and control server always responds to the malware client in exactly the same way; it does not deviate. So even though the traffic is encrypted and one may not know the command and control server’s IPs or domains as they are constantly changing, we can still identify, with reasonable confidence, the malicious communication by fingerprinting the TLS negotiation between client and server.
+Trickbot malware:
+JA3 = 6734f37431670b3ab4292b8f60f29984 ( Trickbot )
+JA3S = 623de93db17d313345d7ea481e7443cf				( C2 Server Response )
+
+Emotet malware:
+JA3 = 4d7a28d6f2263ed61de88ca66eb011e3 ( Emotet )
+JA3S = 80b3a14bccc8598a1f3bbe83e71f735f 			( C2 Server Response )
+=============================      END EG// M A L W A R E vs INNOCUOUS   ===============================================|
+
+
 .
 .
 .
 .
+.					Conclusion ja3er.com
 .
-.
-					Conclusion ja3er.com
 JA3 and JA3S are TLS fingerprinting methods. JA3 fingerprints the way that a client application communicates over TLS, and JA3S fingerprints the server response. 
 
 Combined, they essentially create a fingerprint of the cryptographic negotiation between client and server. While not always a silver bullet to TLS-based detection or a guaranteed mapping to client applications, they are always valuable as a pivot point for analysis.
@@ -184,7 +230,7 @@ For automatic client to JA3 or HASHH mapping, please see Bro-Sysmon at https://g
 
 For any questions or comments, please feel free to contact me on LinkedIn or @4A4133.
 
-|----------------------------------------------------------------------------------------------------------------
+|----------------------------------------------------------------------------------------------------------------|
 
 
 
