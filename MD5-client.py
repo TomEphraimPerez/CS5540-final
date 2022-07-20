@@ -1,5 +1,5 @@
 # THIS** IS 
-# • server.py (from /Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server.py) 
+# • server.py (from /Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server.py ) 
 #   (on my  *main branch),        + (plus)
 
 # • open src code:<Generate JA3 fingerprints from PCAPs using Python> 	from :
@@ -20,7 +20,7 @@ HASH THIS:
 '''
 
 
-#|SERVER.PY fr /Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server.py •••••••••|
+#SERVER.PY fr /Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server••••••|
 import sys 
 import os
 import socket
@@ -29,6 +29,16 @@ import logging
 from optparse import OptionParser
 
 from tls import *
+
+import argparse
+import dpkt
+import json
+import socket
+import binascii
+import struct
+import os
+from hashlib import md5
+# import GenerateJA3fpFromPCAPs
 
 def dump_hello(record):
     print('Record Version:', record.tls_versions[record.version()])
@@ -51,16 +61,16 @@ def read_hello(f):
         dump_hello(record)
     else:
         raise Exception('Unexpected message type %s', message.message_types[message.message_type()])
-#|END SERVER.PY [/Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server.py] •••••••|
+#END SERVER.PY [/Users/thomasperez/5540Smr22Team/GroupProject1/phoca/probes/tls_prober/pytls/server.py]••••|
 
 
 
 
-# |/////////////   https://github.com/salesforce/ja3/blob/master/python/ja3.py   //////////////////////////////|
-class generateJA3fpFromPCAPs(object):
+# |////////   https://github.com/salesforce/ja3/blob/master/python/ja3.py   ////////////////////////////|
+class GenerateJA3fpFromPCAPs():
 	#!/usr/bin/env python
 	"""Generate JA3 fingerprints from PCAPs using Python."""
-
+'''
 	import argparse
 	import dpkt
 	import json
@@ -69,24 +79,24 @@ class generateJA3fpFromPCAPs(object):
 	import struct
 	import os
 	from hashlib import md5
-
+'''
 	# CREDIT (inc Salesforce):
-	__author__ = "Tommy Stallings"
-	__copyright__ = "Copyright (c) 2017, salesforce.com, inc."
-	__credits__ = ["John B. Althouse", "Jeff Atkinson", "Josh Atkins"]
-	__license__ = "BSD 3-Clause License"
-	__version__ = "1.0.0"
-	__maintainer__ = "Tommy Stallings, Brandon Dixon"
-	__email__ = "tommy.stallings2@gmail.com"
+__author__ = "Tommy Stallings"
+__copyright__ = "Copyright (c) 2017, salesforce.com, inc."
+__credits__ = ["John B. Althouse", "Jeff Atkinson", "Josh Atkins"]
+__license__ = "BSD 3-Clause License"
+__version__ = "1.0.0"
+__maintainer__ = "Tommy Stallings, Brandon Dixon"
+__email__ = "tommy.stallings2@gmail.com"
 
 	# Google uses this as a mechanism to prevent extensibility failures in the TLS ecosystem. 
-	GREASE_TABLE = {0x0a0a: True, 0x1a1a: True, 0x2a2a: True, 0x3a3a: True,
+GREASE_TABLE = {0x0a0a: True, 0x1a1a: True, 0x2a2a: True, 0x3a3a: True,
                 	0x4a4a: True, 0x5a5a: True, 0x6a6a: True, 0x7a7a: True,
                 	0x8a8a: True, 0x9a9a: True, 0xaaaa: True, 0xbaba: True,
                 	0xcaca: True, 0xdada: True, 0xeaea: True, 0xfafa: True}
 	# GREASE_TABLE Ref: https://tools.ietf.org/html/draft-davidben-tls-grease-00
-	SSL_PORT = 443
-	TLS_HANDSHAKE = 22
+SSL_PORT = 443
+TLS_HANDSHAKE = 22
 
 def convert_ip(value):
     """Convert an IP address from binary to text.
@@ -291,11 +301,11 @@ def process_pcap(pcap, any_port=False):
         return results #o
 
 def load():
-	return generateJA3fpFromPCAPs()
+	return GenerateJA3fpFromPCAPs()
 
 # |========================Calls to generateJA3fpFromPCAPs()===========================|
 # def main()                    # o
-    """Intake arguments from the user and print out JA3 output."""
+"""Intake arguments from the user and print out JA3 output."""
 desc = "A python script for extracting JA3 fingerprints from PCAP files"
 parser = argparse.ArgumentParser(description=(desc))
 parser.add_argument("pcap", help="The pcap file to process")
@@ -345,12 +355,12 @@ else:
 # if __name__ == "__main__":            #o
 #        main()                         #o
 
-    def load():
-	    return generateJA3fpsFromPCAPs()
+def load():
+	return generateJA3fpsFromPCAPs()
 
 # |==========END CALLS to Generate JA3 fingerprints from PCAPs using Python===========|
 
-# |////////////// END   https://github.com/salesforce/ja3/blob/master/python/ja3.py ////////////////////////////|	
+# |////////////// END   https://github.com/salesforce/ja3/blob/master/python/ja3.py //////////////////////|	
 
 
 
@@ -391,7 +401,7 @@ if __name__ == '__main__':
 
 
 
-#=============================| QUICK NOTES    |
+# ***************************************| QUICK NOTES *****|
 '''
 ja3 -> https://github.com/salesforce/ja3/blob/master/README.md ->
   decimal values of the bytes for the following fields in the Client Hello packet; SSL Version, Accepted Ciphers, List of Extensions, 
@@ -415,7 +425,7 @@ GREASE is :
 Generate Random Extensions And Sustain Extensibility). Google uses this as a mechanism to prevent extensibility failures in the TLS ecosystem. 
 JA3 ignores these values completely to ensure that programs utilizing GREASE can still be identified with a single JA3 hash.
 '''
-#=============================| END QUICK NOTES|
+# **************************************| END QUICK NOTES ***|
 
 
 
