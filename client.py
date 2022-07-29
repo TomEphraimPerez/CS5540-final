@@ -31,7 +31,7 @@ print("\n\nCONNECTION FROM (inThisCase):", str('45.79.84.107'))
 print('\n')
 serverdict = {'c_csuites' :  '_' , 	 'c_curves' :  '_' ,	 's_proto' :	 '_' ,	  's_session' :  '_' ,	 'c_port' :  '_' ,	 's_ip' :  '_'  ,	 'tcp_rtt' : '_'}	
 
-print("Original svr dict: " + str(serverdict))			#  test
+print("Original svr dict: " + str(serverdict))				#  test
 
 # https://pythonguides.com/get-all-values-from-a-dictionary-python/
 result = list(serverdict.values())							# Extract values using py built-in values().
@@ -42,10 +42,14 @@ print('\n')
 m = hashlib.sha224()										# 
 m.update(b"\n\n\t\tIs anyone $HOME ?\n")
 m.digest()
-# hashlib.sha224(result).hexdigest()							# Non-op. 
-# m = hashlib.sha224()										# 
-# m.block_size												# 
+print(m)
 
+# hashlib.sha224(result).hexdigest()						# Non-op.
+digestSZ = m.digest_size
+print('digest size: ', digestSZ)
+blockSZ = m.block_size
+print('block size: ', blockSZ)
+print('\n')
 
 # NOTES ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # host = root@allesrebel.com	-  45.79.84.107 			# 							   
