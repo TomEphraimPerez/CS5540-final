@@ -14,24 +14,26 @@ import requests											#
 import socket
 BUFFER_SIZE = 1024
  	
-# url = '127.0.0.1:443'		# lcl host test only, or 127.0.0.0/8 or 8.8.8.8 
 print('\nsecret (fromTempLiteral):')										
 hashedSecret = hashlib.sha224(b"314159265358979323846").hexdigest()		# test
 print(hashedSecret)										# test
 
 host = "localhost"										# o
 port = 8000
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # o
-s = socket.socket() 									# Either "s =..." , same results" 
-print ("\nSocket obj successfully created\n")
-# s.bind((host, port))									# OK											
 
-# host = socket.gethostname()
-s.connect((host, port))			# -> ConnectionRefusedError: [Errno 61] Connection refused
+s = socket.socket() 									# Either "s =..." , same results" 
+print ("\nSocket obj successfully created.\n")
+s.bind((host, port))									# OK											
+print('s.bind((host, port): OK')
+
+
 s.listen(8000)  
+print("\ns.socket is listening on 8000.\n")
+c, ip = s.accept()
+# HERE - I refresh Safari/localhost:8000
+print('s.accept(): OK\n')
+
 s.sendall(hashedSecret.encode())
-print("\nsocket is listening")
-print('s.bind((host, port: OK')
 
 '''
 while True: 
@@ -45,9 +47,6 @@ while True:
   # Breaking once connection closed
   break
 '''
-
-# s.bind((host, port))
-# s.close()
 
 print("\n\nCONNECTION FROM: \n", host)
 print("CONNECTION FROM: \n", port)
