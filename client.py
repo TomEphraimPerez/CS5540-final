@@ -5,35 +5,32 @@
 # $ python3 server.py	-> About to listen on http://localhost:8000
 # [blinking cursor]
 
-from ipaddress import IPv6Interface, ip_address, ip_interface, ip_network #
-import ipaddress										#
-import os, sys											# 
 import hashlib
 from telnetlib import IP
-import requests											# 
 import socket
 BUFFER_SIZE = 1024
  	
 print('\nsecret (fromTempLiteral):')										
 hashedSecret = hashlib.sha224(b"314159265358979323846").hexdigest()		# test
 print(hashedSecret)										# test
+print('\n\n')
 
 host = "localhost"										# o
 port = 8000
 
 s = socket.socket() 									# Either "s =..." , same results" 
+s.connect((host, port))				# connectionRefusedError: [Errno 61] Connection refused
 print ("\nSocket obj successfully created.\n")
 s.bind((host, port))									# OK											
 print('s.bind((host, port): OK')
 
-
 s.listen(8000)  
 print("\ns.socket is listening on 8000.\n")
 c, ip = s.accept()
-# HERE - I refresh Safari/localhost:8000
+# HERE - I refresh Safari/localhost:8000 
 print('s.accept(): OK\n')
 
-s.sendall(hashedSecret.encode())
+# s.sendall(hashedSecret.encode())						# or "send()"
 
 '''
 while True: 
@@ -78,14 +75,15 @@ m = hashlib.sha224()									# †
 digestSZ = m.digest_size
 print('digest size: ', digestSZ)
 blockSZ = m.block_size
-print('block size: ', blockSZ)
+print('block  size: ', blockSZ)
 print('\n')
 
 
 # SEND HASHED_SECRET -------------|
-# s.sendall(hashedSecret.encode())   						# -> OSError: Socket is not connected
+s.send(hashedSecret.encode())   						# -> OSError: Socket is not connected
+
 # --------------------------------|
-s.close()
+# s.close()
 
 
 # SEND RESULT ====================|
