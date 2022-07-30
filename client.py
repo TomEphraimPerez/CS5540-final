@@ -22,13 +22,15 @@ print(hashedSecret)										# test
 host = "localhost"										# o
 port = 8000
 # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # o
-s = socket.socket() 									# Either "s =..." , same results"
-print ("\nSocket successfully created\n")
-s.bind((host, port))									# OK											
+s = socket.socket() 									# Either "s =..." , same results" 
+print ("\nSocket obj successfully created\n")
+# s.bind((host, port))									# OK											
+
 # host = socket.gethostname()
-# s.connect((host, port))			# -> ConnectionRefusedError: [Errno 61] Connection refused
-s.listen(5000)  
-print("\nsocket is listening\n")
+s.connect((host, port))			# -> ConnectionRefusedError: [Errno 61] Connection refused
+s.listen(8000)  
+s.sendall(hashedSecret.encode())
+print("\nsocket is listening")
 print('s.bind((host, port: OK')
 
 '''
@@ -71,9 +73,7 @@ print('\n')
 
 # https://docs.python.org/3/library/hashlib.html
 m = hashlib.sha224()									# †
-m.update(b"\n\n\t\tIs anyone $HOME ?\n")
-m.digest()
-print(m)		# -> <sha224 _hashlib.HASH object @ 0x102858350>
+
 
 # hashlib.sha224(result).hexdigest()					# Non-op. But uneccessary since †
 digestSZ = m.digest_size
@@ -84,7 +84,7 @@ print('\n')
 
 
 # SEND HASHED_SECRET -------------|
-s.sendall(hashedSecret.encode())   						# -> OSError: Socket is not connected
+# s.sendall(hashedSecret.encode())   						# -> OSError: Socket is not connected
 # --------------------------------|
 s.close()
 
