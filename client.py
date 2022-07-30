@@ -27,10 +27,11 @@ print ("\nSocket successfully created\n")
 s.bind((host, port))									# OK											
 # host = socket.gethostname()
 # s.connect((host, port))			# -> ConnectionRefusedError: [Errno 61] Connection refused
-s.listen(5)  
-print ("\nsocket is listening")
+s.listen(5000)  
+print("\nsocket is listening\n")
+print('s.bind((host, port: OK')
 
-
+'''
 while True: 
 # Establish connection with client.
   c, addr = s.accept()    
@@ -38,13 +39,13 @@ while True:
   # send a thank you message to the client. encoding to send byte type.
   c.send('Thank you for connecting'.encode())
   # Close the connection with the client
-  c.close()   
+  # c.close()   
   # Breaking once connection closed
   break
+'''
 
-
-s.bind((host, port))
-s.close()
+# s.bind((host, port))
+# s.close()
 
 print("\n\nCONNECTION FROM: \n", host)
 print("CONNECTION FROM: \n", port)
@@ -83,10 +84,9 @@ print('\n')
 
 
 # SEND HASHED_SECRET -------------|
-s.connect(( host, port ))								# -> OSError: Invalid argument
 s.sendall(hashedSecret.encode())   						# -> OSError: Socket is not connected
 # --------------------------------|
-
+s.close()
 
 
 # SEND RESULT ====================|
