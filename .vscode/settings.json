@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./probes/tls_prober/pytls"
+    ]
+}

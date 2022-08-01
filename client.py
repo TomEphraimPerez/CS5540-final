@@ -1,6 +1,10 @@
 import http.client
+<<<<<<< HEAD
 import socket, json                                         #
 import hashlib
+=======
+import json
+>>>>>>> e4766f40da41b6078081595b4837b5c88e1748aa
 
 print('\nConnection: ')
 connection = http.client.HTTPConnection("localhost", 8000)
@@ -23,6 +27,7 @@ print(response.read().decode())
 # print("Status: {} and reason: {}".format(response.status, response.reason))
 # print(response.read().decode())
 
+<<<<<<< HEAD
 
 # ==============================================================================================|
 serverdict = {'c_csuites': '_', 'c_curves': '_', 's_proto': '_', 's_session': '_', 'c_port': '_',
@@ -48,3 +53,6 @@ connection.send(hashedSecret)
 
 print('\n')
 connection.close()
+=======
+connection.close()
+>>>>>>> e4766f40da41b6078081595b4837b5c88e1748aa
