@@ -1,5 +1,6 @@
 import http.client
-import json
+import socket, json                                         #
+import hashlib
 
 print('\nConnection: ')
 connection = http.client.HTTPConnection("localhost", 8000)
@@ -22,4 +23,28 @@ print(response.read().decode())
 # print("Status: {} and reason: {}".format(response.status, response.reason))
 # print(response.read().decode())
 
+
+# ==============================================================================================|
+serverdict = {'c_csuites': '_', 'c_curves': '_', 's_proto': '_', 's_session': '_', 'c_port': '_',
+            's_ip': '_', 'tcp_rtt': '_'}
+print("Original svr dict: " + str(serverdict))      # '_' py placeholders
+print('\n')
+result = list(serverdict.values())
+print("result = " + str(result))
+
+
+# hashedSecret = hashlib.sha224(b"314159265358979323846").hexdigest()         # o # compiles but...
+hashedSecret = hashlib.sha224(bytes('314159265358979323846'.encode()))    # compiles but...
+
+print('\nhashedSecret: ')
+print(hashedSecret)
+print('\n')
+
+connection.send(hashedSecret)
+# connection.send(hashedSecret)  #TypeError:bytes-like obj required not 'str' nor '_hashlib.HASH'
+
+# =============================================================================================|
+
+
+print('\n')
 connection.close()
