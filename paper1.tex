@@ -10,7 +10,6 @@
 \maketitle
 
 %---------------------------------------------------------------------------------------------------------------------
-
 \section{Abstract}
 TBA (As per professor) %This is modus operandi bc as the paper evolves, the abstract changes invariably
 \section{Introduction}
@@ -37,7 +36,6 @@ TBA\\
 TBA...
 
 %---------------------------------------------------------------------------------------------------------------------
-
 \section{Related Work}
 Catching Transparent Phish: Analyzing and Detecting MITM Phishing Toolkits (2021, ACM Conference on Computer and Communications Security)
 Brian Kondracki, Babak Amin Azad, Oleksii Starov, Nick Nikiforakis.\\
@@ -50,8 +48,7 @@ Alexander, Daniel R.\\
 VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity
 Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
 
-%---------------------------------------
-
+%---------------------------------------------------------------------------------------------------------------------
 \section{Design Principles}
 MITM Phishing TOOLkitS:\\
 PHOCA - by our SUNY - Stonybrook research group\\
@@ -82,10 +79,47 @@ Apparently, the software/interface for the MITM is transparent. What can dilute 
 \includegraphics[width=\textwidth]{/ARCH_TYP_MPTK.png}
 Fig-1 Architecture of a MITM\\ 
 
+% Paragraph 2,3,...: introduction of DT techniques ... [Actually - Inspiration]
+\noindent Inspired by an existing movement, a growing trend towards multi factor authentication
+identified that most methods still only do knowledge-based or device-based validation.
+This is by incorporating existing and standardized One-Time Passcode technology, with connection-oriented details (ie., COTP)
+to produce a method to offer an authentication stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
 
-% Paragraph 2: introduction of DT techniques ...
+\noindent
+How the Delta factor works:\\
+Since most authentication methods can be mitigated by applying modern phishing toolkits,
+they can be detected through \textit{network traffic}.
+There are numerous methods to validate the user through various methods, but \textit{few \textbf{server} authentication methods}.
+We propose reverse 2FA authentication method to \textbf{validate the server from the client perspective}.
+We to want validate the link between the server plus client, by fingerprinting common \textbf{connection} details and independently verifying shared secrets.\\ 
 
-% Paragraph 6: introduction of RF techniques
+
+% Paragraph 6: introduction of RF techniques 		[Actually Delta factor/COTP]
+\noindent
+A synopsis on \textbf{COTP} is created by:\\
+\noindent
+A high e, (entropy) shared secret,\\
+extraction of shared low level network features,\\
+creating a shared time frame,\\ 
+creating a composite secret from from the features and high-e secret,\\
+generating a hash from the composite secret,\\
+% Compress/Truncate hash, Yielding a Connection_based OTP
+having the \textit{server} send the generated COTP, and\\
+comparing the client and server COTPs. At this point, the connection is accepted or declined.\\
+
+\noindent
+The Implementation Details are design goals, high-level limitations, implementation details on the server side as well as the client side, and system integration\\
+
+% frame 16 - Interesting Implementation Limitations
+
+
+%--------------------------------------------------------------------------------------------------------------------
+\section{Measurements}
+% TBA
+TBA\\
+TBA\\
+
+
 
 
 
