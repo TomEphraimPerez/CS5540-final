@@ -86,16 +86,31 @@ This is by incorporating existing and standardized One-Time Passcode technology,
 to produce a method to offer an authentication stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
 
 \noindent
-How the Delta factor works:\\
+The Implementation Details are design goals, high-level limitations, implementation details on the server side as well as the client side, and system integration\
+\noindent
+Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation. In addition, SQLite3 is the user DB,\\
+
+
+
+%--------------------------------------------------------------------------------------------------------------------
+\section{Measurements}
+% TBA
+TBA\\
+TBA\\
+
+%--------------------------------------------------------------------------------------------------------------------
+\section{Algorithm: \textit{implementation details}}
+\noindent
+Algorithm fundamentals:\\
 Since most authentication methods can be mitigated by applying modern phishing toolkits,
 they can be detected through \textit{network traffic}.
 There are numerous methods to validate the user through various methods, but \textit{few \textbf{server} authentication methods}.
 We propose reverse 2FA authentication method to \textbf{validate the server from the client perspective}.
 We to want validate the link between the server plus client, by fingerprinting common \textbf{connection} details and independently verifying shared secrets.\\ 
 
-
 % Paragraph 6: introduction of RF techniques 		[Actually Delta factor/COTP]
 \noindent
+Algorithm design:\\
 A synopsis on \textbf{COTP} is created by:\\
 \noindent
 A high e, (entropy) shared secret,\\
@@ -107,17 +122,6 @@ generating a hash from the composite secret,\\
 having the \textit{server} send the generated COTP, and\\
 comparing the client and server COTPs. At this point, the connection is accepted or declined.\\
 
-\noindent
-The Implementation Details are design goals, high-level limitations, implementation details on the server side as well as the client side, and system integration\\
-
-% frame 16 - Interesting Implementation Limitations
-
-
-%--------------------------------------------------------------------------------------------------------------------
-\section{Measurements}
-% TBA
-TBA\\
-TBA\\
 
 
 
