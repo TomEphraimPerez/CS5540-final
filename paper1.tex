@@ -1,15 +1,19 @@
 % New = "Delta Factor" due to line width
-\documentclass[a4paper, 11pt]{ article}
-
+\documentclass[a4paper, 11pt]{article} 				%Short reports and scientific journals
+% \documentclass{report}							% Books and thesis
 \usepackage{graphicx}
-\graphicspath{ {~/Desktop/FINALpix/} }
+\graphicspath{ {/Users/thomasperez/Desktop/finalpix/} }		%abs 
+% \graphicspath{{../pdf/}{D:\ImagesforProjectLatex}}
 
 \title{Delta Factor - A New Authorization Factor}
 \author{Alles Rebel, Thomas Perez - CalStateLA}
 \begin{document}
 \maketitle
 
+
+
 %---------------------------------------------------------------------------------------------------------------------
+% Following exactly professor's Canvas example
 \section{Abstract}
 TBA (As per professor) %This is modus operandi bc as the paper evolves, the abstract changes invariably
 \section{Introduction}
@@ -17,7 +21,6 @@ TBA (As per professor) %This is modus operandi bc as the paper evolves, the abst
 \indent
 
 Today’s phishing toolkits used by savvy user attacks are state-of-the-art and have a profound effect on all levels of our work, shopping, web-surfing and much more. The effect it has on users can be quite profound. Attackers from Israel, Iran, Russia, US, North Korea, UK, Europe, and others do this according to the Washington Post, obviously some much more than others as a whole. DDoS attacks by bots are one of many types of attacks, but one that most of us have encountered, perhaps unwittingly, is the  man-in-the-middle attack, eg., MITM. They use phishing toolkits for spoofing innocent users or bystanders. The immediate handling of these types of attacks and urgency for mitigation, elimination or deterrence is obvious. 
-
 
 There are methods to avoid and/or determine the existence of a MITM. Traditionally there are eg., Machine Learning methods, ie., the ubiquitous trust-based methods, 2FA, and more new ways, methods and tools for detection of MITM and more, however they aren't used nor easily available to the general public.
 The current status in the field including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper, "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca".
@@ -35,6 +38,8 @@ The organization of the report is as follows:
 TBA\\
 TBA...
 
+
+
 %---------------------------------------------------------------------------------------------------------------------
 \section{Related Work}
 Catching Transparent Phish: Analyzing and Detecting MITM Phishing Toolkits (2021, ACM Conference on Computer and Communications Security)
@@ -48,7 +53,10 @@ Alexander, Daniel R.\\
 VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity
 Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
 
+
+
 %---------------------------------------------------------------------------------------------------------------------
+% Still following exactly professor's Canvas example
 \section{Design Principles}
 MITM Phishing TOOLkitS:\\
 PHOCA - by our SUNY - Stonybrook research group\\
@@ -72,11 +80,13 @@ Android\\
 Figure-1 below shows the typical simplified architecture of a MITM 
 Apparently, the software/interface for the MITM is transparent. What can dilute the transparency are tools like phoca or Delta-factor, ie., our tool.\\
 
-\noindent % frame 			3 = arch of MITM PIX (In professional typesetting, this is called a strut.)
+% frame 			3 = arch of MITM PIX (In professional typesetting, this is called a strut.)
 % 		[  : )  pix ] 
-% \usepackage{graphicx}  				Atop - as a preamble
-% \graphicspath{ {~/Desktop/FINALpix/} } 		Atop - as a preamble 
-\includegraphics[width=\textwidth]{/ARCH_TYP_MPTK.png}
+  % \usepackage{graphicx}  					Atop - as a preamble
+  % \graphicspath{ {~/Desktop/FINALpix/} } 		Atop - as a preamble 
+\includegraphics[width=\textwidth]{pix1}
+ %\includegraphics[\textwidth]{pix1}  
+  
 Fig-1 Architecture of a MITM\\ 
 
 % Paragraph 2,3,...: introduction of DT techniques ... [Actually - Inspiration]
@@ -98,7 +108,10 @@ Standard modules are built into NGINX to extract TLS and TCP connection data. Th
 TBA\\
 TBA\\
 
+
+
 %--------------------------------------------------------------------------------------------------------------------
+% Still following exactly professor's Canvas example
 \section{Algorithm: \textit{implementation details}}
 \noindent
 Algorithm fundamentals:\\
@@ -122,9 +135,26 @@ generating a hash from the composite secret,\\
 having the \textit{server} send the generated COTP, and\\
 comparing the client and server COTPs. At this point, the connection is accepted or declined.\\
 
+\noindent
+Code type "pseudocode" (because of simplicity):\\
+code\\
+code\\
 
+%--------------------------------------------------------------------------------------------------------------------
+\section{Experiment}				% Still following exactly professor's Canvas example
+\noindent
+Setup:\\
+setup\\
 
+\noindent
+Details:\\
+details\\
 
+\noindent
+Results:\\
+results\\
+figures and observations\\
+analysis of the results\\
 
 
 
@@ -133,7 +163,7 @@ comparing the client and server COTPs. At this point, the connection is accepted
 %------------------------------------------------------------------------------%---------------------------------------
 %------------------------------------------------------------------------------%---------------------------------------
 
-\section{CITATIONS} % OUT-OF-ORDER intentional. Point number before "CITATIONS" auto-changed 
+\section{CITATIONS - Chicago style} % OUT-OF-ORDER intentional. Point number before "CITATIONS" auto-changed 
 \noindent
 Public Internet Standards (Various Authors)
 
@@ -144,7 +174,7 @@ https://datatracker.ietf.org/doc/html/rfc4226 - Creating a HOTP
 https://datatracker.ietf.org/doc/html/rfc6238 - Create a TOTP 
 
 \noindent
-https://datatracker.ietf.org/doc/html/rfc4086 - Making High Entropy Secrets
+https://datatracker.ietf.org/doc/html/rfc4086 - High Entropy Secrets
 
 \noindent
 https://datatracker.ietf.org/doc/html/rfc2104 - HMAC Algorithm\\
@@ -154,9 +184,9 @@ Test Website Live: http://allesrebel.com\\
 
 \noindent
 Reference implementations provided by papers + standardized code\\
-TOTP - https://datatracker.ietf.org/doc/html/rfc6238
-HOTP - https://datatracker.ietf.org/doc/html/rfc4226 
-COTP - xxxxxxxxxxxxxxx TBA\\
+TOTP - https://datatracker.ietf.org/doc/html/rfc6238\\
+HOTP - https://datatracker.ietf.org/doc/html/rfc4226 \\
+COTP - (\textbf{citation TBA})\\
 
 \noindent
 Collecting TCP Timings via Performance API\\
@@ -178,7 +208,6 @@ JA3, https://github.com/salesforce/ja3\\
 
 \noindent
 https://coveryourtracks.eff.org/, Proceedings of the Privacy Enhancing Technologies Symposium
-
 
 %---------------------------------------------------------------------------------------------------------------------
 
