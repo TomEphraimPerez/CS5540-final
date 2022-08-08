@@ -1,6 +1,7 @@
 % New = "Delta Factor" due to line width
 \documentclass[a4paper, 11pt]{article} 				%Short reports and scientific journals
 % \documentclass{report}							% Books and thesis
+\usepackage[utf8]{inputenc}						% 128++ UTF-8 charset -----------------------
 \usepackage{graphicx}
 \graphicspath{ {/Users/thomasperez/Desktop/finalpix/} }		%abs 
 % \graphicspath{{../pdf/}{D:\ImagesforProjectLatex}}
@@ -135,10 +136,84 @@ generating a hash from the composite secret,\\
 having the \textit{server} send the generated COTP, and\\
 comparing the client and server COTPs. At this point, the connection is accepted or declined.\\
 
+%----------------------------------- <> % <>-----------------------------------
 \noindent
-Code type "pseudocode" (because of simplicity):\\
-code\\
-code\\
+\textbf{Code} type \textbf{"pseudocode"} (because of simplicity):\\
+\noindent
+Used existing HTTP Server code built into Py\\
+\noindent
+Developed a simple \textbf{COTP} algorithm from reference\\
+
+\noindent
+FOR INPUT:\\
+\noindent
+import hmac, base64, struct, hashlib, time\\
+
+\noindent
+def get\_hotp\_token(secret, msg):\\
+\indent key = base64.b32decode(secret, true)\\
+
+\# secret -\textgreater just unsigned bytes\\
+\indent msg\_array = bytearray()\\
+\indent msg\_array.extend(map(ord, msg))\\
+
+\# RFC says to use specific bytes\\
+\indent h = hmac.new(key, msg\_array, hashlib.sha1).digest()\\
+\indent o = h[19] \& 15\\
+
+\# Generate a hash using HMAC SHA1\\
+\indent \# Grab the first 3 bytes after 20th, undo endiness\\
+\indent key\_byte = struct.unpack(">l", h[o:o+4])[0]\\
+\indent \# Convert key byte into a code\\
+\indent htop =  (key\_byte \& 0x7fffffff) \% 1000000\\
+\indent return htop\\
+
+\noindent
+EXAMPLE INPUT (from NGINX)\\
+\noindent
+tcp\_rtt=20380\\
+\noindent
+tls\_proto='TLSv1.3'\\
+\noindent
+tls\_csuite='TLS\_AES\_128\_GCM\_SHA256'\\
+\noindent
+secret='TESTTESTTEST===' \# 16 chars\\
+%-----------
+%-----------
+%-----------
+
+\noindent
+FOR OUTPUT:\\
+\noindent
+def get\_cotp(secret):\\
+\indent \# Gather 30sec timeframe from time - now!\\
+\indent time\_Frame = (int(time.time())//30)\\
+\indent \# Gather/extract out cipher suite + tcp RTT\\
+\indent cipher\_suite = tls\_csuite 		         \# See above\\
+\indent protocol\_version = tls\_proto		         \# See above\\
+\indent tcp\_rt\t\_ms = (tcp\_rtt/1000)		         \# 34microsec\\      % known - sb '//' in py
+
+\# Stitch everything together
+msg = str(time\_Frame) + str(cipher\_suite) \indent + str(protocol\_version) + str(tcp\_rtt\_ms)\\
+
+\# Ensuring to give the same OPT for 30sec\\
+\indent cotp = str(get\_hotp\_token(secret, msg))\\
+
+\# Adding 0 in the beginning till OTP has 6 digits\\
+\indent while len(cotp) !=6:\\
+ \indent \indent cotp += '0'\\
+
+\indent \indent return cotp\\
+
+\noindent
+EXAMPLE OUTPUT\\
+ \noindent
+ COTP (30 second windows)\\
+ \textbf{321009}\\
+ \textbf{500028}\\ 
+%----------------------------------- <> % <>-----------------------------------
+
+
 
 %--------------------------------------------------------------------------------------------------------------------
 \section{Experiment}				% Still following exactly professor's Canvas example
@@ -158,11 +233,9 @@ analysis of the results\\
 
 
 
-
-
 %------------------------------------------------------------------------------%---------------------------------------
 %------------------------------------------------------------------------------%---------------------------------------
-\section{CITATIONS \normalfont{Chicago style:}} 	% Same as "References" as per prof
+\section{CITATIONS \normalfont{(Chicago style):}} 	% Same as "References" as per prof
 \noindent
 Public Internet Standards (Various Authors)
 
@@ -209,17 +282,12 @@ JA3, https://github.com/salesforce/ja3\\
 \noindent
 https://coveryourtracks.eff.org/, Proceedings of the Privacy Enhancing Technologies Symposium
 
+
+
 %---------------------------------------------------------------------------------------------------------------------
 \section{Conclusion}
 conclusions\\
 more\\
-
-
-
-
-
-
-
 
 
 
