@@ -101,10 +101,17 @@ Fig-1 Architecture of a MITM\\
 identified that most methods still only do knowledge-based or device-based validation.
 This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP)
 to produce a method to offer an authentication much stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
-\indent
-The Implementation Details are: design goals, high-level limitations, implementation details (server side and client side), and system integration.\\
+
+\noindent
+\textbf{The Implementation Details} are: design goals, high-level limitations, implementation details (server side and client side), and system integration.\\
 \noindent
 Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation. In addition, SQLite3 is the user DB,\\
+
+\noindent
+[10][11][12][13]See the citations below for implementing in, an Add-On. This API-like add-on allows collecting as much browser information as possible, that is not so easily accessible otherwise.\\
+
+\includegraphics[width=\textwidth]{pix2}
+
 
 
 
