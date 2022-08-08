@@ -16,42 +16,50 @@
 %---------------------------------------------------------------------------------------------------------------------
 % Following exactly professor's Canvas example
 \section{Abstract}
-TBA (As per professor) %This is modus operandi bc as the paper evolves, the abstract changes invariably
-\section{Introduction}
 \setlength{\baselineskip}{1.5\baselineskip}
-\indent
+((TBA as per professor - however...))\\ %This is modus operandi bc as the paper evolves, the abstract changes invariably
+\noindent
+Man\_In\_The\_Middle-ware, (MITM) is a rapidly growing field of website spoofing that is a challenge for everyone, especially for MITM mitigation and deterrence  developers to keep up with. Many papers have been published that explain the nuances, methods and lengths that the attackers use for "personal gain". According to [1], fairly spectacular results in detecting a MITM attack has been shown. This was accomplished by the group gathering attack data, metrics of the attacks, and analysis for many months, to eventually develop a custom phishing toolkit they named "phoca". That said, the target of our research is two-fold. Firstly, we show improvement in the Stonybrook claim via our novel composite-type methodology using COTP.  Secondly, we claim and show that despite Stonybrook's claim, it is possible and provable that application level checks based on easily-acccessable and well known network level features along with a secret, can indeed determine with fine granularity, a MITM or !MITM. Ie., an efficient and novel server authentication factor has been developed.  
 
-Today’s phishing toolkits used by savvy user attacks are state-of-the-art and have a profound effect on all levels of our work, shopping, web-surfing and much more. The effect it has on users can be quite profound. Attackers from Israel, Iran, Russia, US, North Korea, UK, Europe, and others do this according to the Washington Post, obviously some much more than others as a whole. DDoS attacks by bots are one of many types of attacks, but one that most of us have encountered, perhaps unwittingly, is the  man-in-the-middle attack, eg., MITM. They use phishing toolkits for spoofing innocent users or bystanders. The immediate handling of these types of attacks and urgency for mitigation, elimination or deterrence is obvious. 
 
-There are methods to avoid and/or determine the existence of a MITM. Traditionally there are eg., Machine Learning methods, ie., the ubiquitous trust-based methods, 2FA, and more new ways, methods and tools for detection of MITM and more, however they aren't used nor easily available to the general public.
-The current status in the field including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper, "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca".
-More will be exposed on this later. In brief however, it is discovered that via COTP and of course a shared secret and 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work. 
 
-What \textbf{we} have done is \textit{dispute} this claim by the Stonybrook research group, emphasizing again, that the work that they did is very professional and thorough, these points of relevance will also be exposed and explained in great detail later. 
+%---------------------------------------------------------------------------------------------------------------------
+\section{Introduction}
+\noindent
+Today’s phishing toolkits used by savvy user attacks are state-of-the-art and have a profound effect on all levels of our work, shopping, web-surfing and much more. The effect it has on users can be quite profound. Attackers from Israel, Iran, Russia, US, North Korea, UK, Europe, and others do this according to the Washington Post [16][17], obviously some much more than others as a whole. DDoS attacks by bots are one of many types of attacks, but one that most of us have encountered, perhaps unwittingly, is the  man-in-the-middle attack, eg., MITM. They use phishing toolkits for spoofing innocent users or bystanders. The immediate handling of these types of attacks and urgency for mitigation, elimination or deterrence is obvious. 
+
+There are methods to avoid and/or determine the existence of a MITM. Traditionally there are eg., Machine Learning methods, ie., the ubiquitous trust-based methods, 2FA, and more new ways, methods, and tools for detection of MITM and more, however they aren't used nor easily available to the general public.
+The current status in the field, including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper [1], "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca". In brief however, it is discovered that via COTP and of course a shared secret plus a 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work on their phoca toolkit. 
+
+What \textit{we} have done is \textit{dispute} this claim by the Stonybrook research group, emphasizing again, that the work that they did is very professional and thorough, these points of relevance will also be exposed and explained in great detail later. 
 
 \noindent
-The relevance and importance of COTP will also be explained.
-Source Code Available: https://github.com/allesrebel/cotp
+The relevance and importance of COTP will also be explained.\\
 
+\noindent
+Source Code Available: https://github.com/allesrebel/cotp\\
 The organization of the report is as follows:
 
 \noindent
-TBA\\
-TBA...
+Abstract\\
+Introduction\\
+Related Work\\
+Design Principles\\
+Measurements\\
 
 
 
 %---------------------------------------------------------------------------------------------------------------------
 \section{Related Work}
-Catching Transparent Phish: Analyzing and Detecting MITM Phishing Toolkits (2021, ACM Conference on Computer and Communications Security)
+[1]Catching Transparent Phish: Analyzing and Detecting MITM Phishing Toolkits (2021, ACM Conference on Computer and Communications Security)
 Brian Kondracki, Babak Amin Azad, Oleksii Starov, Nick Nikiforakis.\\
 
 \noindent
-Inferring the Presence of Reverse Proxies Through Timing Analysis
+[18]Inferring the Presence of Reverse Proxies Through Timing Analysis
 Alexander, Daniel R.\\
 
 \noindent
-VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity
+[19]VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity
 Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
 
 
@@ -60,17 +68,15 @@ Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
 % Still following exactly professor's Canvas example
 \section{Design Principles}
 MITM Phishing TOOLkitS:\\
-PHOCA - by our SUNY - Stonybrook research group\\
-Evilginx, Muraena, and Modlishka \\
+Phoca - by our SUNY Stonybrook research group\\
+Evilginx, Muraena, and Modlishka [20]\\
 
 % ppt frames 11 , 12 , 13 , 14 . 15
 % Paragraph 1: a general overview of the techniques that we used
 
 \noindent	% frame 			15
 Design Goals:\\
-• Methodology to work on any OS, Windows-10, OSX, Linux distro's,  and/or 
-
-Android\\
+• Methodology to work on any OS, Windows-10, OSX, Linux distributions,  \indent and/or Android\\
 • Ability to work on websites today\\
 • Anyone anywhere, should be able to use this to verify a website\\
 • Users should have the tool and ability to detect MITMs\\
@@ -78,8 +84,8 @@ Android\\
 • Making MITM significantly harder.\\
 
 \noindent
-Figure-1 below shows the typical simplified architecture of a MITM 
-Apparently, the software/interface for the MITM is transparent. What can dilute the transparency are tools like phoca or Delta-factor, ie., our tool.\\
+Figure-1 below shows the typical simplified architecture of a MITM. 
+Apparently, the software/interface for the MITM is transparent to the user. What can dilute the transparency are tools like Phoca or Delta-factor, ie., our tool.\\
 
 % frame 			3 = arch of MITM PIX (In professional typesetting, this is called a strut.)
 % 		[  : )  pix ] 
@@ -91,13 +97,12 @@ Apparently, the software/interface for the MITM is transparent. What can dilute 
 Fig-1 Architecture of a MITM\\ 
 
 % Paragraph 2,3,...: introduction of DT techniques ... [Actually - Inspiration]
-\noindent Inspired by an existing movement, a growing trend towards multi factor authentication
+\noindent Inspired by an existing movement, a growing trend towards multifactor authentication
 identified that most methods still only do knowledge-based or device-based validation.
-This is by incorporating existing and standardized One-Time Passcode technology, with connection-oriented details (ie., COTP)
-to produce a method to offer an authentication stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
-
-\noindent
-The Implementation Details are design goals, high-level limitations, implementation details on the server side as well as the client side, and system integration\
+This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP)
+to produce a method to offer an authentication much stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
+\indent
+The Implementation Details are: design goals, high-level limitations, implementation details (server side and client side), and system integration.\\
 \noindent
 Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation. In addition, SQLite3 is the user DB,\\
 
@@ -118,9 +123,9 @@ TBA\\
 Algorithm fundamentals:\\
 Since most authentication methods can be mitigated by applying modern phishing toolkits,
 they can be detected through \textit{network traffic}.
-There are numerous methods to validate the user through various methods, but \textit{few \textbf{server} authentication methods}.
+There are numerous methods to validate the user through various methods, but \textbf{few server authentication methods}.
 We propose reverse 2FA authentication method to \textbf{validate the server from the client perspective}.
-We to want validate the link between the server plus client, by fingerprinting common \textbf{connection} details and independently verifying shared secrets.\\ 
+We want to validate the link between the server and client by fingerprinting common \textbf{connection} details, and independently verifying shared secrets.\\ 
 
 % Paragraph 6: introduction of RF techniques 		[Actually Delta factor/COTP]
 \noindent
@@ -163,7 +168,7 @@ def get\_hotp\_token(secret, msg):\\
 
 \# Generate a hash using HMAC SHA1\\
 \indent \# Grab the first 3 bytes after 20th, undo endiness\\
-\indent key\_byte = struct.unpack(">l", h[o:o+4])[0]\\
+\indent key\_byte = struct.unpack("\textgreater l", h[o:o+4])[0]\\
 \indent \# Convert key byte into a code\\
 \indent htop =  (key\_byte \& 0x7fffffff) \% 1000000\\
 \indent return htop\\
@@ -191,10 +196,11 @@ def get\_cotp(secret):\\
 \indent \# Gather/extract out cipher suite + tcp RTT\\
 \indent cipher\_suite = tls\_csuite 		         \# See above\\
 \indent protocol\_version = tls\_proto		         \# See above\\
-\indent tcp\_rt\t\_ms = (tcp\_rtt/1000)		         \# 34microsec\\      % known - sb '//' in py
+\indent tcp\_rt\t\_ms = (tcp\_rtt//1000)		         \# 34microsec\\     
 
-\# Stitch everything together
-msg = str(time\_Frame) + str(cipher\_suite) \indent + str(protocol\_version) + str(tcp\_rtt\_ms)\\
+\# "Stitching" everything together;\\
+\indent
+msg = str(time\_Frame) + str(cipher\_suite) \indent + str(protocol\_version) + \indent str(tcp\_rtt\_ms)\\
 
 \# Ensuring to give the same OPT for 30sec\\
 \indent cotp = str(get\_hotp\_token(secret, msg))\\
@@ -236,53 +242,85 @@ analysis of the results\\
 %------------------------------------------------------------------------------%---------------------------------------
 %------------------------------------------------------------------------------%---------------------------------------
 \section{CITATIONS \normalfont{(Chicago style):}} 	% Same as "References" as per prof
-\noindent
-Public Internet Standards (Various Authors)
 
 \noindent
-https://datatracker.ietf.org/doc/html/rfc4226 - Creating a HOTP
+[1]Catching transparent Phish: Analyzing and Detecting MITM Phishing Toolkits\\
+\noindent 
+Brian Kondracki, Babak Amin Azad, Oleskii Starov, Nick Nikiforakis\\
+Stonybrook University and Palo Alto Networks\\ 
+\noindent
+ACM ISBN-978-1-4503-8454-4/21/11 Nov 2021\\
 
 \noindent
-https://datatracker.ietf.org/doc/html/rfc6238 - Create a TOTP 
+[2]https://datatracker.ietf.org/doc/html/rfc4226 - Creating a HOTP\\
 
 \noindent
-https://datatracker.ietf.org/doc/html/rfc4086 - High Entropy Secrets
+[3]https://datatracker.ietf.org/doc/html/rfc6238 - Create a TOTP\\ 
 
 \noindent
-https://datatracker.ietf.org/doc/html/rfc2104 - HMAC Algorithm\\
+[4]https://datatracker.ietf.org/doc/html/rfc4086 - High Entropy Secrets\\
 
 \noindent
-Test Website Live: http://allesrebel.com\\ 
+[5]https://datatracker.ietf.org/doc/html/rfc2104 - HMAC Algorithm\\
 
 \noindent
-Reference implementations provided by papers + standardized code\\
-TOTP - https://datatracker.ietf.org/doc/html/rfc6238\\
-HOTP - https://datatracker.ietf.org/doc/html/rfc4226 \\
-COTP - (\textbf{citation TBA})\\
-COTP implementation - https://github.com/TomEphraimPerez/CS5540-final/tree/webserver /nginx\\
+[6]Test Website Live: http://allesrebel.com\\ 
 
 \noindent
-Collecting TCP Timings via Performance API\\
+Reference implementations provided by papers + standardized code
+
+\noindent
+[7]TOTP - https://datatracker.ietf.org/doc/html/rfc6238
+
+\noindent
+[8]HOTP - https://datatracker.ietf.org/doc/html/rfc4226 
+
+\noindent
+[9]COTP implementation - https://github.com/TomEphraimPerez/CS5540-final/tree/webserver /nginx\\
+
+\noindent
+[10]Collecting TCP Timings via Performance API\\
 https://developer.mozilla.org/en-US/docs/Web/API/Performance\\
-Collecting TLS Information via Security Info from Extensions JS API\\
+
+\noindent
+[11]Collecting TLS Information via Security Info from Extensions JS API\\
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest /SecurityInfo\\
 
 \noindent
-Store Secret via Browser Extension Storage API\\
+[12]Store Secret via Browser Extension Storage API\\
 https://developer.mozilla.org/en-US/docs/Web/API/Storage\\
 
 \noindent
-Crypto APIs + Time APIs to generate COTP\\
+[13]Crypto APIs + Time APIs to generate COTP\\
 https://developer.mozilla.org/en-US/docs/Web/API/Crypto\\
 
 
 \noindent
-JA3, https://github.com/salesforce/ja3\\
+[14]JA3, https://github.com/salesforce/ja3\\
 
 \noindent
-https://coveryourtracks.eff.org/, Proceedings of the Privacy Enhancing Technologies Symposium
+[15]https://coveryourtracks.eff.org/, Proceedings of the Privacy Enhancing Technologies Symposium\\
 
+\noindent
+[16]https://www.washingtonpost.com/technology/2021/07/09/how-ransomware-attack-works/\\
 
+\noindent
+[17]https://www.washingtonpost.com/technology/2022/03/07/russia-belarus-conducted-widespread-phishing-campaigns-ukraine-google-says/\\
+
+\noindent
+[18]Inferring the Presence of Reverse Proxies Through Timing Analysis Alexander, Daniel R.\\
+https://apps.dtic.mil/sti/citations/ADA632473 US naval Post-Graduate School - Cybersecurity\\
+
+\noindent
+[19]VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
+https://dl.acm.org/doi/10.1145/3372297.3417233\\
+
+\noindent
+[20][Evilginx, Muraena, and Modlishka]\\
+https://cybernews.com/security/researchers-find-more-than-1200-phishing-toolkits-across-the-web/\\
+
+\noindent
+[-]Public Internet Standards (Various Authors)\\
 
 %---------------------------------------------------------------------------------------------------------------------
 \section{Conclusion}
