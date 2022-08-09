@@ -82,8 +82,7 @@ Design Goals:\\
 • Methodology to work on any OS, Windows 10, OSX, Linux distributions, and Mobile\\
 • Ability to work on websites today, without loss of security or privacy\\
 • Anyone anywhere, should be able to use this to verify a website\\
-• Users should have the tool and ability to detect MITMs\\
-• Transparent MITM should be harder.\\
+• Users should have the ability to detect MITMs\\
 
 With these constraints in mind, we'll do a brief analysis at current client server landscape. Clients typically access web resources through a web browser. Web browsers themselves are cross platform and cross operating system. On the server side, web servers are typically behind a reverse proxy, to allow for scaling and to decouple server logic from application logic. 
 
@@ -227,9 +226,11 @@ EXAMPLE OUTPUT\\
 %--------------------------------------------------------------------------------------------------------------------
 \section{Experiment}				% Still following exactly professor's Canvas example
 \subsection{Setup}
-Due to the nature of this proposal, a proper experiment requires a large body of people to understand how much more effective this is at detection of MITM vs a control (such as regular 2FA) Time constraints didn't allow us to gather the people needed for such a trial. However, from running these code itself, we can take a look at some areas where this method may fall apart and propose some solutions.
+Due to the nature of this work, a proper experiment could not be performned. A statistically significant sample of people is needed to determine detection rate of MITMs against a control. Time constraints didn't allow us to gather the people needed for such a trial. However, from running the code, we took a look at areas where the proposed method may fall apart and investigated some solutions.
 
-The setup for this experiment is a simple proof of concept webserver. The webserver uses URIs to indicate protected data. The client will use a web browser to access this webserver and it's protected resource. The resource will simply be the client's username - and accessing this page will trigger the server generate an one-time password, and embed this information into presented page. The client's web browser also includes the instrumentation to generate a one-time password via a browser extension/plug in. 
+The setup for this experiment is a proof of concept webserver. The webserver will have a valid server certificate, a reverse proxy, and a simple application serving content. The webserver uses URIs to indicate protected data. For example, URI other than the index page, is considered a protected resource. The client will use a web browser to access the webserver. The client will attempt to access a protected resource. The webserver checks if the resource has been assiocated with a secret that's been shared. If it's already been shared to a client, then a COTP is presented. If there's no secret assiocated with the resource, then an input field is provided to allow the client to provide a secret. The generated one-time password is inserted into the body of the returned application layer HTML. 
+
+The client's web browser also includes the instrumentation to generate a one-time password via a browser extension/plug in. This one-time password will use a secret either generated randomly or provided by the client directly. The secret will act as the private key used for signing the message in the HMAC-SHA1 algorithm. The message will be a concatenation of features / factors assiocated with the one-time password algorithm.
 
 Normally the experiment would be that some group of users get a traditional 2FA code (either HOTP or TOTP). Another group would be presented with a COTP code instead. Finally a fraction of both groups would have a 'fake' MITM attack. Due to time constaints we'll evaulate the method's contribution to existing traditional methods instead.
 
@@ -293,7 +294,31 @@ Choosing a window that doesn't typically happen, and that is large enough that s
 
 The client consistently reported longer latencies than the server. This may have been an artifact of the reverse proxy.
 
-%------------------------------------------------------------------------------%---------------------------------------
+\subsubsection{Implications}
+Using these methods as both an authenication check for both the server and client is important. Due to connection details being easily accessible by attacks, either as the MITM or passively through traffic analysis. 
+
+A strong method assiocate small deltas to the same number while large deltas to another while having access to a single number - is a hard problem. Here we use a prime as windowing function.This isn't ideal - as there's also cases where both latences have a small delta but map to different windows. Consider 7ms window with server round-trip-time of 6ms and client round-trip-time of 8ms. Small delta of 2ms, but map to completely different windows. Using a smaller prime number with the server providing multiple COTPs using a the previous, current, and next window is also possible. This method is similiar to how TOPT handles time frames.
+
+%---------------------------------------------------------------------------------------------------------------------
+\section{Conclusion}
+In this work, we looked at providing clients or servers a method of detecting transparent MITMs, one of the most advanced phishing attacks today by using connection details with a proposed algorithm based on one time passwords, called Connection-Oriented One-Time Passwords. Utilizing COTP as an additional factor, once the user has been authenicated (by means of knowledge, or some other factor), COTP enables MITM detection through generation of a composite secret from multiple factors including connection features observed. In other words, instead of the server validating the user again, with this factor, we propose the inverse: the server offers the user an enhanced one time use password to validate. We evaluated some potential weaknesses of the method, and techiques we used to make COTP an useful validation factor, along with a reference implementation using publically available browsers and web server implementations.
+
+\subsection{Implications of Work}
+Although this work attempts to show that application layer detection of transparent MITMs is possible - there are some important considerations to take into account.
+
+\subsubsection{Should not be a Solo Factor}
+COTP provides a robust method to validate multiple factors, namely: knowledge, connection details, and device. However, for maximum effectiviness, validation of both parties should be done. First, the user should be validated by the server - ideally using COTP or another 2FA method. This is the same as the state of the art today by Duo or Google Authenticator. But, an additional validation should be used to allow the client to validate the server. Because the server has already validated the client, this is effectively a courtesy offered, and has no impact on authorization to access the protected resources.
+
+\subsubsection{Connection Latency Reporting May Vary}
+This work offers a method to deal with latency mismatches between the server and the client by rounding to the nearest prime based latency window. Multiple COTPs should be done through the client, or, simply retrying authentication as proposed in this work. However, this method means that a stochastic method to validating the user should be used to reduce the number of retries. This is in contrast to traditional one-time password methods, which can be performed from a seperate device. 
+
+\subsection{Future Work}
+Future work includes further addressing timing discrepencies between server and client. One interesting approach could be remap the values to nearest prime number or calibrating the error out during server boot. Care must be taken to ensure that close values map to a simliar value while values with large differences map to entirely different values - all without the counterpart's number. If such a techinque is found, this factor becomes significantly more robust to one time code differences.
+
+Another potiential future work is finding the optimal balance between connection oriented details and other factors. This work focused on introducing connection oriented features to a verification algorithm. This is by using only shared features between both parties, however there are additional features that are shared, which can be included. One such additional feature is each party's supported cipher suite, or, another is the selected curve - and both could increase difficultly for an advanced transparent MITM to sucessfully mimick all details symetrically. However, the increase in difficultly also needs to be assessed. Another issue is balance between authentication features, ie., a completely connection-oriented approach will fail, due to connection details being publically available to a motivated attacker through protocol analysis.
+
+Finally, another future work is potientially repeatedly validating or checking factors periodically. TLS addresses forward secrecy through rekeying, and this happens to be part of the protocol. The same process could trigger a transparent COTP generation and exchange. This type of feature is already possible on the browser side, and could be implemented on the server side as well. In addition, a new shared secret could be generated and shared upon rekeying, forward authentication is allowed. Those with access to previous details would not have future authentication. 
+
 %------------------------------------------------------------------------------%---------------------------------------
 \section{CITATIONS \normalfont{(Chicago style):}} 	% Same as "References" as per prof
 
@@ -376,25 +401,5 @@ https://cybernews.com/security/researchers-find-more-than-1200-phishing-toolkits
 \noindent
 [-]Public Internet Standards (Various Authors)\\
 
-
-%---------------------------------------------------------------------------------------------------------------------
-\section{Conclusion}
-In this work, we looked at providing clients or servers a method of detecting transparent MITMs, one of the most advanced phishing attacks today by using connection details with a proposed algorithm based on one time passwords, called Connection-Oriented One-Time Passwords. Utilizing COTP as an additional factor, once the user has been authenicated (by means of knowledge, or some other factor), COTP enables MITM detection through generation of a composite secret from multiple factors including connection features observed. In other words, instead of the server validating the user again, with this factor, we propose the inverse: the server offers the user an enhanced one time use password to validate. We evaluated some potential weaknesses of the method, and techiques we used to make COTP an useful validation factor, along with a reference implementation using publically available browsers and web server implementations.
-
-\subsection{Implications of Work}
-Although this work attempts to show that application layer detection of transparent MITMs is possible - there are some important considerations to take into account.
-
-\subsubsection{Should not be a Solo Factor}
-COTP provides a robust method to validate multiple factors, namely: knowledge, connection details, and device. However, for maximum effectiviness, validation of both parties should be done. First, the user should be validated by the server - ideally using COTP or another 2FA method. This is the same as the state of the art today by Duo or Google Authenticator. But, an additional validation should be used to allow the client to validate the server. Because the server has already validated the client, this is effectively a courtesy offered, and has no impact on authorization to access the protected resources.
-
-\subsubsection{Connection Latency Reporting May Vary}
-This work offers a method to deal with latency mismatches between the server and the client by rounding to the nearest prime based latency window. Multiple COTPs should be done through the client, or, simply retrying authentication as proposed in this work. However, this method means that a stochastic method to validating the user should be used to reduce the number of retries. This is in contrast to traditional one-time password methods, which can be performed from a seperate device. 
-
-\subsection{Future Work}
-Future work includes further addressing timing discrepencies between server and client. One interesting approach could be remap the values to nearest prime number or calibrating the error out during server boot. Care must be taken to ensure that close values map to a simliar value while values with large differences map to entirely different values - all without the counterpart's number. If such a techinque is found, this factor becomes significantly more robust to one time code differences.
-
-Another potiential future work is finding the optimal balance between connection oriented details and other factors. This work focused on introducing connection oriented features to a verification algorithm. This is by using only shared features between both parties, however there are additional features that are shared, which can be included. One such additional feature is each party's supported cipher suite, or, another is the selected curve - and both could increase difficultly for an advanced transparent MITM to sucessfully mimick all details symetrically. However, the increase in difficultly also needs to be assessed. Another issue is balance between authentication features, ie., a completely connection-oriented approach will fail, due to connection details being publically available to a motivated attacker through protocol analysis.
-
-Finally, another future work is potientially repeatedly validating or checking factors periodically. TLS addresses forward secrecy through rekeying, and this happens to be part of the protocol. The same process could trigger a transparent COTP generation and exchange. This type of feature is already possible on the browser side, and could be implemented on the server side as well. In addition, a new shared secret could be generated and shared upon rekeying, forward authentication is allowed. Those with access to previous details would not have future authentication. 
 
 \end{document}
