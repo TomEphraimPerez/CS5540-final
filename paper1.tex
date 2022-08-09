@@ -17,9 +17,9 @@
 % Following exactly professor's Canvas example
 \section{Abstract}
 \setlength{\baselineskip}{1.5\baselineskip}
-((TBA as per professor - however...))\\ %This is modus operandi bc as the paper evolves, the abstract changes invariably
+%This is modus operandi bc as the paper evolves, the abstract changes invariably
 \noindent
-Man\_In\_The\_Middle-ware, (MITM) is a rapidly growing field of website spoofing that is a challenge for everyone, especially for MITM mitigation and deterrence  developers to keep up with. Many papers have been published that explain the nuances, methods and lengths that the attackers use for "personal gain". According to [1], fairly spectacular results in detecting a MITM attack has been shown. This was accomplished by the group gathering attack data, metrics of the attacks, and analysis for many months, to eventually develop a custom phishing toolkit they named "phoca". That said, the target of our research is two-fold. Firstly, we show improvement in the Stonybrook claim via our novel composite-type methodology using COTP.  Secondly, we claim and show that despite Stonybrook's claim, it is possible and provable that application level checks based on easily-acccessable and well known network level features along with a secret, can indeed determine with fine granularity, a MITM or !MITM. Ie., an efficient and novel server authentication factor has been developed.  
+Man\_In\_The\_Middle-ware, (MITM)[14],[20] is a rapidly growing field of website spoofing that is a challenge for everyone, especially for MITM mitigation and deterrence  developers to keep up with. Many papers have been published that explain the nuances, methods and lengths that the attackers use for "personal gain". According to [1], fairly spectacular results in detecting a MITM attack has been shown. This was accomplished by the group gathering attack data, metrics of the attacks, and analysis for many months, to eventually develop a custom phishing toolkit they named "phoca". That said, the target of our research is two-fold. Firstly, we show improvement in the Stonybrook claim via our novel composite-type methodology using COTP[13].  Secondly, we claim and show that despite Stonybrook's claim, it is possible and provable that application level checks based on easily acccessible and well known network level features along with a secret, can indeed determine with fine granularity, a MITM or !MITM. Ie., an efficient and novel server authentication factor has been developed.  
 
 
 
@@ -29,12 +29,12 @@ Man\_In\_The\_Middle-ware, (MITM) is a rapidly growing field of website spoofing
 Today’s phishing toolkits used by savvy user attacks are state-of-the-art and have a profound effect on all levels of our work, shopping, web-surfing and much more. The effect it has on users can be quite profound. Attackers from Israel, Iran, Russia, US, North Korea, UK, Europe, and others do this according to the Washington Post [16][17], obviously some much more than others as a whole. DDoS attacks by bots are one of many types of attacks, but one that most of us have encountered, perhaps unwittingly, is the  man-in-the-middle attack, eg., MITM. They use phishing toolkits for spoofing innocent users or bystanders. The immediate handling of these types of attacks and urgency for mitigation, elimination or deterrence is obvious. 
 
 There are methods to avoid and/or determine the existence of a MITM. Traditionally there are eg., Machine Learning methods, ie., the ubiquitous trust-based methods, 2FA, and more new ways, methods, and tools for detection of MITM and more, however they aren't used nor easily available to the general public.
-The current status in the field, including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper [1], "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca". In brief however, it is discovered that via COTP and of course a shared secret plus a 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work on their phoca toolkit. 
+The current status in the field, including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper [1], "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca". In brief however, it is discovered that via COTP[13] and of course a shared secret plus a 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work on their phoca toolkit. 
 
 What \textit{we} have done is \textit{dispute} this claim by the Stonybrook research group, emphasizing again, that the work that they did is very professional and thorough, these points of relevance will also be exposed and explained in great detail later. 
 
 \noindent
-The relevance and importance of COTP will also be explained.\\
+The relevance and importance of COTP[13] will also be explained.\\
 
 \noindent
 Source Code Available: https://github.com/allesrebel/cotp\\
@@ -62,28 +62,37 @@ Alexander, Daniel R.\\
 [19]VisualPhishNet: Zero-Day Phishing Website Detection by Visual Similarity
 Sahar Abdelnabi, Katharina Krombholz, Mario Fritz\\
 
+Although these works are focused on finding transparent phishing sites, or detection of the attack from a firewall or hardware perspective - blocking the client from access the site prior to the attack taking place. These papers underline the importance of utilizing Network-level / connection features to detect advanced MITMs. Key difference between those and this work is fundamentally looking at client and server interactions, and attempting to detect a MITM. Ultimately empowering both client and server to determine for if an MITM is present. 
 
+\noindent
+[7]TOTP - https://datatracker.ietf.org/doc/html/rfc6238
+
+\noindent
+[8]HOTP - https://datatracker.ietf.org/doc/html/rfc4226 
+
+These works are public standards used for common multi factor authentication methods. Both lean into research acceleration of cryptographic functions and the need for client validation. What separates these from this work, is that these methods are fundamentally weak against an advanced MITM attack. Even in the scenario where both client and server validation is in place, an advanced MITM can be undetected. This work attempts to enhance the prior methods by drawing from shared connection features.
 
 %---------------------------------------------------------------------------------------------------------------------
 % Still following exactly professor's Canvas example
 \section{Design Principles}
-MITM Phishing TOOLkitS:\\
-Phoca - by our SUNY Stonybrook research group\\
-Evilginx, Muraena, and Modlishka [20]\\
-
 % ppt frames 11 , 12 , 13 , 14 . 15
 % Paragraph 1: a general overview of the techniques that we used
-
 \noindent	% frame 			15
 Design Goals:\\
-• Methodology to work on any OS, Windows-10, OSX, Linux distributions,  \indent and/or Android\\
-• Ability to work on websites today\\
+• Methodology to work on any OS, Windows 10, OSX, Linux distributions, and Mobile\\
+• Ability to work on websites today, without loss of security or privacy\\
 • Anyone anywhere, should be able to use this to verify a website\\
 • Users should have the tool and ability to detect MITMs\\
-\textbf{• Validate the server - at the application level} (with a shared secret)\\
-• Making MITM significantly harder.\\
+• Transparent MITM should be harder.\\
 
-\noindent
+With these constraints in mind, we'll do a brief analysis at current client server landscape. Clients typically access web resources through a web browser. Web browsers themselves are cross platform and cross operating system. On the server side, web servers are typically behind a reverse proxy, to allow for scaling and to decouple server logic from application logic. 
+
+\subsection{One-Time Passwords}
+Earlier web servers only used knowledge to validate or authenticate users. But modern applications employ multi factor approaches to make a more robust authentication method. The most basic of these is the HMAC-based One-Time Password (HOTP)[2][8]. Further factors are introduced, such as time, creating additional constraints on authentication. These methods rely on cryptographic functions that are fast computations in one direction, while computationally complex to reverse.
+
+These passwords are made by the server generating a high entropy[4] secret. This secret is shared with the client over a secure channel. Then both client and server, use cryptographic functions to convert this shared secret into a short password (sometimes using additional factors outside of the shared secret). The client then enters the generated password, and the server compares its generated version to the client provided password. If they match, the server allows the client to access protected resources that the client should have access to. Otherwise, the server rejects the client, denying access to the protected resources.
+
+\subsection{Transparent Man in the Middle}
 Figure-1 below shows the typical simplified architecture of a MITM. 
 Apparently, the software/interface for the MITM is transparent to the user. What can dilute the transparency are tools like Phoca or Delta-factor, ie., our tool.\\
 
@@ -97,15 +106,14 @@ Apparently, the software/interface for the MITM is transparent to the user. What
 Fig-1 Architecture of a MITM\\ 
 
 % Paragraph 2,3,...: introduction of DT techniques ... [Actually - Inspiration]
-\noindent Inspired by an existing movement, a growing trend towards multifactor authentication
-identified that most methods still only do knowledge-based or device-based validation.
-This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP)
-to produce a method to offer an authentication much stronger than knowledge-based alone. This empowers users to detect the most advanced MITMs today.\\
+Inspired by an existing movement, a growing trend towards multi-factor authentication
+identified that most methods still only do knowledge-based or device-based validation. This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP) to produce a method to offer an authentication much stronger than knowledge-based, possession-based, or time-based alone. 
 
-\noindent
-\textbf{The Implementation Details} are: design goals, high-level limitations, implementation details (server side and client side), and system integration.\\
-\noindent
-Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation. In addition, SQLite3 is the user DB,\\
+\subsection{Webserver}
+Webservers have been the focus on security, just as Web Browsers have been. Servers also have the most access, as they usually the trusted resource by default, allowing for phishing attacks to happen in the first place. They hold protected resources, and have implied trust. However, this paper suggests that Webservers should also offer to build trust with the client - instead of being implicitly trusted - as is the norm today - but offer to allow client to validate the connection, knowledge, time, through an One-Time Password as well. This means that the server will accept a shared secret, just like a client would for a multi factor authentication. Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation.
+
+\subsection{Web Browser}
+Web browsers the the interface of clients for many resources on the internet. These also have been hardened over the years to prevent leaking of private information. For this reason they are often locked down, where even the client can't directly influence much of the behavior - this is the same access an attacker would have on a compromised system. To get access to the life cycle of requests and network level details, browsers offer enhanced APIs [11],[12],[13] to extension/plug-in developers. This is what we'll use in order to extract the features needed for COTP and calculate it.
 
 \noindent
 [10][11][12][13]See the citations below for implementing in, an Add-On. This API-like add-on allows collecting as much browser information as possible, that is not so easily accessible otherwise.\\
@@ -113,21 +121,9 @@ Standard modules are built into NGINX to extract TLS and TCP connection data. Th
 \includegraphics[width=\textwidth]{pix2}
 
 
-
-
-%--------------------------------------------------------------------------------------------------------------------
-\section{Measurements}
-% TBA
-TBA\\
-TBA\\
-
-
-
 %--------------------------------------------------------------------------------------------------------------------
 % Still following exactly professor's Canvas example
 \section{Algorithm: \textit{implementation details}}
-\noindent
-Algorithm fundamentals:\\
 Since most authentication methods can be mitigated by applying modern phishing toolkits,
 they can be detected through \textit{network traffic}.
 There are numerous methods to validate the user through various methods, but \textbf{few server authentication methods}.
@@ -152,7 +148,7 @@ comparing the client and server COTPs. At this point, the connection is accepted
 \noindent
 \textbf{Code} type \textbf{"pseudocode"} (because of simplicity):\\
 \noindent
-Used existing HTTP Server code built into Py\\
+Used existing HTTP Server code built into Python\\
 \noindent
 Developed a simple \textbf{COTP} algorithm from reference\\
 
@@ -230,19 +226,105 @@ EXAMPLE OUTPUT\\
 
 %--------------------------------------------------------------------------------------------------------------------
 \section{Experiment}				% Still following exactly professor's Canvas example
-\noindent
-Setup:\\
-setup\\
+\subsection{Setup}
+Due to the nature of this proposal, a proper experiment requires a large body of people to understand how much more effective this is at detection of MITM vs a control (such as regular 2FA) Time constraints didn't allow us to gather the people needed for such a trial. However, from running these code itself, we can take a look at some areas where this method may fall apart and propose some solutions.
 
-\noindent
-Details:\\
-details\\
+The setup for this experiment is a simple proof of concept webserver. The webserver uses URIs to indicate protected data. The client will use a web browser to access this webserver and its protected resource. The resource will simply be the client's username - and accessing this page will trigger the server generate a one-time password, and embed this information into presented page. The client's web browser also includes the instrumentation to generate a one-time password via a browser extension/plug in. 
 
-\noindent
-Results:\\
-results\\
-figures and observations\\
-analysis of the results\\
+Normally the experiment would be that some group of users get a traditional 2FA code (either HOTP[2],[8] or TOTP[3],[7]). Another group would be presented with a COTP code instead. Finally a fraction of both groups would have a 'fake' MITM attack. Due to time constraints, we'll evaluate the method's contribution to existing traditional methods instead.
+
+To perform this experiment, we'll use different computers to access a particular resource. The client will be presented with a COTP, and we'll observe how many times they match. We'll determine which factors produce the most stable COTPs and what this implies.
+
+\subsection{Details}
+Implementation details and code can be found on https://github.com/allesrebel/cotp
+Two main sets of features were looked at, TLS-based, and TCP-based. Both sets of features are accessible from APIs on both client and server side. Features that were not accessible were excluded. 
+
+\subsubsection{TLS Features}
+Many of the TLS features aren't actually available on both sides. Most web browsers will only expose the agreed on TLS features. In other words, the client doesn't have access to which TLS features it supports or the TLS features supported by the server (for the most part). However the client can easily access the result of a TLS setup - namely the TLS Protocol version, TLS Shared Cipher Suite, and some other details. For this paper, we'll investigate just TLS Protocol version and TLS Shared Cipher Suite. 
+
+An important detail is that, the agreed on TLS Cipher suite and Protocol can change on rekeys or due to other processes. 
+
+The experiment was simply accessing a protected resource on the webserver 20 times, and observing how many times the code was incorrect.
+
+\subsubsection{TCP Features + TLS Features}
+Similar to TLS features - many of the TCP features aren't accessible on the client side either. However, some TCP features can be inferred through connection setup times and port information. For this work, we will focus on round trip time, or the set up time for a TCP connection. Web Browsers have event hooks in place to extract this information with accurate timestamps. These timestamps are simply subtracted to get the round-trip-time. 
+
+This round-trip-time was added as an additional factor in addition to the TLS features described. The same experiment was performed, a client through a web browser would attempt to load a protected resource 20 times, and observed how many times the code was incorrect. In addition, for this experiment, TCP round trip times were also recorded for both client and server.
+
+Finally, a correction is applied to the TCP data, due to differences between server and client reported latencies. This correct is explained a bit more during the analysis - it's effectively a windowed version of the latencies reported. The window is specifically chosen to be a prime number thats larger than LAN delay times but shorter than typical server latencies.
+
+\subsection{Results + Data}
+\noindent 
+Please refer to \textbf{Table-1} below.\\
+For the TLS features along, every trial had server and client COTPs match! 
+For the TLS + uncorrected TCP features, 2 of 20 trials matched!
+For the TLS + corrected TCP features, 16 of 20 trials matched!
+Please refer to [6]
+
+\subsubsection{\textbf{Table-1} Round Trip Times}
+
+% \includegraphics[width=\textwidth]{pix3}
+\includegraphics[width=5cm]{pix3}
+
+% Due to time constraints, and deprecated examples online, I'l use an Excel png		
+% Server RTT ms, Client RTT ms, ABS Diff
+% 21	22	1
+% 21	25	4
+
+% 18	22	4
+% 19	23	4
+%19	21	2
+% 19	22	3
+% 18	23	5
+% 21	23	2
+% 18	21	3
+% 17	20	3
+% 19	20	1
+% 18	21	3
+
+% 19	23	4
+% 19	20	1
+% 20	21	1
+% 18	21	3
+% 18	22	4
+% 19	20	1
+% 20	24	4
+% 19	20	1
+% 19	20	1
+% 18	21	3
+
+
+\subsubsection{Analysis}
+Although TLS features only gave great reproducibility in regards to COTPs [13] it doesn't add very much to the strength of the algorithm. An advanced MITM would only need to observe the TLS hellos to brute force the selected cipher suite, and produce their own COTPs. The 30 second time frame can be reduced to make this less likely; however this isn't the strongest solution.
+
+Combining TLS and TCP features makes the attacker not only brute force the cipher-suite (and the shared secret, and within the timeframe), but they must now also match connection latencies. The MITM needs to literally be in the middle, in terms of latency to both server and client. This is much more difficult, as they could be closer to one party over the other and must compensate. Due to connection information being unencrypted and public, it's not impossible for a motivated attacker to find hosts equidistant - but requires much more effort.
+
+Choosing a window that doesn't typically happen, and that is large enough that small differences don't end up in different timing windows is critical. This work uses a prime number of 7ms to generate windows. Although other primes could be used, 7ms was the sweet spot for this experiment. Note: a similar approach to generating windows in TOTP is done, a integer division is used to determine the window a particular latency belongs too. (See code for reference)
+
+The client consistently reported longer latencies than the server. This may have been an artifact of the reverse proxy.
+
+
+
+
+%---------------------------------------------------------------------------------------------------------------------
+\section{Conclusion}
+In this work, we looked at providing clients or servers a method of detecting transparent MITMs, one of the most advanced phishing attacks today by using connection details with a proposed algorithm based on one time passwords, called Connection-Oriented One-Time Passwords. Utilizing COTP as an additional factor, once the user has been authenticated (by means of knowledge, or some other factor), COTP enables MITM detection through generation of a composite secret from multiple factors including connection features observed. In other words, instead of the server validating the user again, with this factor, we propose the inverse: the server offers the user an enhanced one time use password to validate. We evaluated some potential weaknesses of the method, and techniques we used to make COTP a useful validation factor, along with a reference implementation using publicly available browsers and web server implementations.
+
+\subsection{Implications of Work}
+Although this work attempts to show that application layer detection of transparent MITMs is possible - there are some important considerations to take into account.
+
+\subsubsection{Should not be a Solo Factor}
+COTP provides a robust method to validate multiple factors, namely: knowledge, connection details, and device. However, for maximum effectiveness, validation of both parties should be done. First, the user should be validated by the server - ideally using COTP or another 2FA method. This is the same as the state of the art today by Duo or Google Authenticator. But, an additional validation should be used to allow the client to validate the server. Because the server has already validated the client, this is effectively a courtesy offered, and has no impact on authorization to access the protected resources.
+
+\subsubsection{Connection Latency Reporting May Vary}
+This work offers a method to deal with latency mismatches between the server and the client by rounding to the nearest prime based latency window. Multiple COTPs should be done through the client, or, simply retrying authentication as proposed in this work. However, this method means that a stochastic method to validating the user should be used to reduce the number of retries. This is in contrast to traditional one-time password methods, which can be performed from a separate device. 
+
+\subsection{Future Work}
+Future work includes further addressing timing discrepancies between server and client. One interesting approach could be remap the values to nearest prime number or calibrating the error out during server boot. Care must be taken to ensure that close values map to a similar value while values with large differences map to entirely different values - all without the counterpart's number. If such a technique is found, this factor becomes significantly more robust to one time code differences.
+
+Another potential future work is finding the optimal balance between connection oriented details and other factors. This work focused on introducing connection oriented features to a verification algorithm. This is by using only shared features between both parties, however there are additional features that are shared, which can be included. One such additional feature is each party's supported cipher suite, or, another is the selected curve - and both could increase difficultly for an advanced transparent MITM to successfully mimmic all details symmetrically. However, the increase in difficultly also needs to be assessed. Another issue is balance between authentication features, ie., a completely connection-oriented approach will fail, due to connection details being publicly available to a motivated attacker through protocol analysis.
+
+Finally, another future work is potientialy repeatedly validating or checking factors periodically. TLS addresses forward secrecy through rekeying, and this happens to be part of the protocol. The same process could trigger a transparent COTP generation and exchange. This type of feature is already possible on the browser side, and could be implemented on the server side as well. In addition, a new shared secret could be generated and shared upon rekeying, forward authentication is allowed. Those with access to previous details would not have future authentication. 
 
 
 
@@ -283,7 +365,7 @@ Reference implementations provided by papers + standardized code
 [8]HOTP - https://datatracker.ietf.org/doc/html/rfc4226 
 
 \noindent
-[9]COTP implementation - https://github.com/TomEphraimPerez/CS5540-final/tree/webserver /nginx\\
+[9]COTP Server and Client implementation - https://github.com/allesrebel/cotp
 
 \noindent
 [10]Collecting TCP Timings via Performance API\\
@@ -329,13 +411,7 @@ https://cybernews.com/security/researchers-find-more-than-1200-phishing-toolkits
 \noindent
 [-]Public Internet Standards (Various Authors)\\
 
-%---------------------------------------------------------------------------------------------------------------------
-\section{Conclusion}
-conclusions\\
-more\\
 
 
 
 \end{document}
-
-
