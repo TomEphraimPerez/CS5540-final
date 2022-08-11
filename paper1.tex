@@ -3,6 +3,8 @@
 % \documentclass{report}							% Books and thesis
 \usepackage[utf8]{inputenc}						% 128++ UTF-8 charset -----------------------
 \usepackage{graphicx}
+\usepackage{booktabs,siunitx}
+
 \graphicspath{ {/Users/thomasperez/Desktop/finalpix/} }		%abs 
 % \graphicspath{{../pdf/}{D:\ImagesforProjectLatex}}
 
@@ -263,33 +265,90 @@ Please refer to [6]
 
 \subsubsection{\textbf{Table-1} Round Trip Times}
 
-% \includegraphics[width=\textwidth]{pix3}
-\includegraphics[width=5cm]{pix3}
+
+% \includegraphics[width=\textwidth]{pix3}				%?
+%			\includegraphics[width=5cm]{pix3}					%OK Wed 8-10-22
+% ========== TABLE ================ STKOVR
+\begin{center}
+\begin{tabular}{||c c c ||} 
+ \hline
+ Col1 & Col2 & Col3 \\ [0.5ex] 
+ \hline\hline
+ 21 & 22 & 1 \\ 				%21 22 1
+ \hline
+ 21 & 25 & 4 \\ 				%21 25 4
+ \hline
+ 18 & 22 & 4 \\ 				%18 22 4
+ \hline
+ 19 & 23 & 4 \\ 				%19 23 4
+  \hline
+ 19 & 21 & 2 \\ 				%19 21 2
+  \hline
+ 19 & 22 & 3 \\ 				%19 22 3
+  \hline
+ 18 & 23 & 5 \\ 				%18 23 5
+  \hline
+ 21 & 23 & 2 \\ 				%21 23 2
+  \hline
+ 18 & 21 & 3 \\ 				%18 21 3
+  \hline
+ 17 & 20 & 3 \\ 				%17 20 3
+  \hline
+ 19 & 20 & 1 \\ 				%19 20 1
+  \hline
+ 18 & 21 & 3 \\ 				%18 21 3
+  \hline
+ 19 & 23 & 4 \\ 				%19 23 4
+  \hline
+ 19 & 20 & 1 \\ 				%19 20 1
+  \hline
+ 20 & 21 & 1 \\ 				%20 21 1
+  \hline
+ 18 & 21 & 3 \\ 				%18 21 3
+  \hline
+ 18 & 22 & 4 \\ 				%18 22 4
+  \hline
+ 19 & 20 & 1 \\ 				%19 20 1
+  \hline
+ 20 & 24 & 4 \\ 			%20 24 4
+  \hline
+ 19 & 20 & 1 \\ 				%19 20 1
+  \hline
+ 19 & 20 & 1 \\ 				%19 20 1
+ \hline
+ 18 & 21 & 3 \\ [1ex]  			%18 21 3
+ \hline
+\end{tabular}
+\end{center}
+% == END === TABLE =======================
+
 
 % Due to time constraints, and deprecated examples online, I'l use an Excel png		
 % Server RTT ms, Client RTT ms, ABS Diff
 % 21	22	1
 % 21	25	4
-
 % 18	22	4
 % 19	23	4
-%19	21	2
+% 19	21	2
+
 % 19	22	3
 % 18	23	5
 % 21	23	2
 % 18	21	3
 % 17	20	3
+
 % 19	20	1
 % 18	21	3
-
 % 19	23	4
 % 19	20	1
 % 20	21	1
+
 % 18	21	3
 % 18	22	4
 % 19	20	1
 % 20	24	4
 % 19	20	1
+
 % 19	20	1
 % 18	21	3
 
