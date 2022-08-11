@@ -21,7 +21,7 @@
 \setlength{\baselineskip}{1.5\baselineskip}
 %This is modus operandi bc as the paper evolves, the abstract changes invariably
 \noindent
-Man\_In\_The\_Middle-ware, (MITM)[14],[20] is a rapidly growing field of website spoofing that is a challenge for everyone, especially for MITM mitigation and deterrence  developers to keep up with. Many papers have been published that explain the nuances, methods and lengths that the attackers use for "personal gain". According to [1], fairly spectacular results in detecting a MITM attack has been shown. This was accomplished by the group gathering attack data, metrics of the attacks, and analysis for many months, to eventually develop a custom phishing toolkit they named "phoca". That said, the target of our research is two-fold. Firstly, we show improvement in the Stonybrook claim via our novel composite-type methodology using COTP[13].  Secondly, we claim and show that despite Stonybrook's claim, it is possible and provable that application level checks based on easily acccessible and well known network level features along with a secret, can indeed determine with fine granularity, a MITM or !MITM. Ie., an efficient and novel server authentication factor has been developed.  
+Man\_In\_The\_Middle-ware, (MITM)[14][15][20] is a rapidly growing field of website spoofing that is a challenge for everyone, especially for MITM mitigation and deterrence  developers to keep up with. Many papers have been published that explain the nuances, methods and lengths that the attackers use for "personal gain". According to [1], fairly spectacular results in detecting a MITM attack has been shown. This was accomplished by the group gathering attack data, metrics of the attacks, and analysis for many months, to eventually develop a custom phishing toolkit they named "phoca". That said, the target of our research is two-fold. Firstly, we show improvement in the Stonybrook claim via our novel composite-type methodology using COTP[13].  Secondly, we claim and show that despite Stonybrook's claim, it is possible and provable that application level checks based on easily acccessible and well known network level features along with a secret, can indeed determine with fine granularity, a MITM or !MITM. Ie., an efficient and novel server authentication factor has been developed.  
 
 
 
@@ -31,7 +31,7 @@ Man\_In\_The\_Middle-ware, (MITM)[14],[20] is a rapidly growing field of website
 Today’s phishing toolkits used by savvy user attacks are state-of-the-art and have a profound effect on all levels of our work, shopping, web-surfing and much more. The effect it has on users can be quite profound. Attackers from Israel, Iran, Russia, US, North Korea, UK, Europe, and others do this according to the Washington Post [16][17], obviously some much more than others as a whole. DDoS attacks by bots are one of many types of attacks, but one that most of us have encountered, perhaps unwittingly, is the  man-in-the-middle attack, eg., MITM. They use phishing toolkits for spoofing innocent users or bystanders. The immediate handling of these types of attacks and urgency for mitigation, elimination or deterrence is obvious. 
 
 There are methods to avoid and/or determine the existence of a MITM. Traditionally there are eg., Machine Learning methods, ie., the ubiquitous trust-based methods, 2FA, and more new ways, methods, and tools for detection of MITM and more, however they aren't used nor easily available to the general public.
-The current status in the field, including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper [1], "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits". The name of the extremely efficient tool that they developed is called, "phoca". In brief however, it is discovered that via COTP[13] and of course a shared secret plus a 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work on their phoca toolkit. 
+The current status in the field, including the best performing tool is from the basis of our research, with is from the SUNY - Stonybrook paper [1], "Catching Transparent Phish: Analyzing and Detecting MITM  Phishing Toolkits[20]". The name of the extremely efficient tool that they developed is called, "phoca". In brief however, it is discovered that via COTP[13] and of course a shared secret plus a 2FA for security, the APPLICATION layer CAN BE able to help us reveal a MITM if one exists, as opposed to the denial of that concept by Stonybrook, again, knowing that they did a tremendous amount of work on their phoca toolkit. 
 
 What \textit{we} have done is \textit{dispute} this claim by the Stonybrook research group, emphasizing again, that the work that they did is very professional and thorough, these points of relevance will also be exposed and explained in great detail later. 
 
@@ -40,7 +40,8 @@ The relevance and importance of COTP[13] will also be explained.\\
 
 \noindent
 Source Code Available: https://github.com/allesrebel/cotp\\
-The organization of the report is as follows:
+https://github.com/TomEphraimPerez/CS5540-final\\
+\textbf{Organization} of the report is as follows:
 
 \noindent
 Abstract\\
@@ -90,7 +91,7 @@ Design Goals:\\
 With these constraints in mind, we'll do a brief analysis at current client server landscape. Clients typically access web resources through a web browser. Web browsers themselves are cross platform and cross operating system. On the server side, web servers are typically behind a reverse proxy, to allow for scaling and to decouple server logic from application logic. 
 
 \subsection{One-Time Passwords}
-Earlier web servers only used knowledge to validate or authenticate users. But modern applications employ multi factor approaches to make a more robust authentication method. The most basic of these is the HMAC-based One-Time Password (HOTP)[2][8]. Further factors are introduced, such as time, creating additional constraints on authentication. These methods rely on cryptographic functions that are fast computations in one direction, while computationally complex to reverse.
+Earlier web servers only used knowledge to validate or authenticate users. But modern applications employ multi factor approaches to make a more robust authentication method. The most basic of these is the [5]HMAC-based One-Time Password (HOTP)[2][8]. Further factors are introduced, such as time, creating additional constraints on authentication. These methods rely on cryptographic functions that are fast computations in one direction, while computationally complex to reverse.
 
 These passwords are made by the server generating a high entropy[4] secret. This secret is shared with the client over a secure channel. Then both client and server, use cryptographic functions to convert this shared secret into a short password (sometimes using additional factors outside of the shared secret). The client then enters the generated password, and the server compares its generated version to the client provided password. If they match, the server allows the client to access protected resources that the client should have access to. Otherwise, the server rejects the client, denying access to the protected resources.
 
@@ -109,7 +110,7 @@ Fig-1 Architecture of a MITM\\
 
 % Paragraph 2,3,...: introduction of DT techniques ... [Actually - Inspiration]
 Inspired by an existing movement, a growing trend towards multi-factor authentication
-identified that most methods still only do knowledge-based or device-based validation. This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP) to produce a method to offer an authentication much stronger than knowledge-based, possession-based, or time-based alone. 
+identified that most methods still only do knowledge-based or device-based validation. This is by incorporating existing and standardized One-Time-Pass code technology, with connection-oriented details (eg., COTP[9]) to produce a method to offer an authentication much stronger than knowledge-based, possession-based, or time-based alone. 
 
 \subsection{Webserver}
 Webservers have been the focus on security, just as Web Browsers have been. Servers also have the most access, as they usually the trusted resource by default, allowing for phishing attacks to happen in the first place. They hold protected resources, and have implied trust. However, this paper suggests that Webservers should also offer to build trust with the client - instead of being implicitly trusted - as is the norm today - but offer to allow client to validate the connection, knowledge, time, through an One-Time Password as well. This means that the server will accept a shared secret, just like a client would for a multi factor authentication. Standard modules are built into NGINX to extract TLS and TCP connection data. They then pass the details onto a Python WebApp for further validation.
@@ -262,11 +263,8 @@ For the TLS features along, every trial had server and client COTPs match!
 For the TLS + uncorrected TCP features, 2 of 20 trials matched!
 For the TLS + corrected TCP features, 16 of 20 trials matched!
 Please refer to [6]
-
-\subsubsection{\textbf{Table-1} Round Trip Times}
-
-
-% \includegraphics[width=\textwidth]{pix3}				%?
+\subsubsection{\textbf{Table-1} \qquad \qquad Round Trip Times}
+% \includegraphics[width=\textwidth]{pix3}							%?
 %			\includegraphics[width=5cm]{pix3}					%OK Wed 8-10-22
 % ========== TABLE ================ STKOVR
 \begin{center}
